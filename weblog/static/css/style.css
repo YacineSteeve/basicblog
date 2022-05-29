@@ -2,3 +2,112 @@ body {
     margin: 0;
     padding: 0;
 }
+
+.element-to-center {
+    margin-left: 50%;
+    margin-right: 50%;
+    transform: translateX(-50%);
+}
+
+.body {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-areas:
+            "header header header header header header"
+            "main   main   main   main   main   sidebar"
+            "footer footer footer footer footer footer";
+    row-gap: 25px;
+    width: 75%;
+    height: max-content;
+    padding: 15px 15px 0 15px;
+    box-shadow: 0 0 15px -5px black;
+}
+
+header {
+    grid-area: header;
+    border-bottom: 2px solid black;
+}
+
+main {
+    grid-area: main;
+}
+
+aside {
+    grid-area: sidebar;
+    border: thin solid black;
+    border-radius: 10px;
+    width: 85%;
+    padding: 10px;
+}
+
+footer {
+    grid-area: footer;
+    border-top: 2px solid black;
+}
+
+.grid-element {
+    justify-self: stretch;
+    align-self: stretch;
+    justify-items: stretch;
+}
+
+h1 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 3rem;
+}
+
+header nav {
+    display: flex;
+    width: 100%;
+}
+
+.menu {
+    display: flex;
+    width: 75%;
+    margin: 20px 0 20px 0;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.menu a {
+    border-right: 1px solid black;
+    width: 100%;
+    text-align: center;
+}
+
+.user {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-areas:
+            "picture username"
+            "picture authentication";
+    width: 20%;
+    padding-left: 25px;
+}
+
+.profile-picture {
+    height: 50px;
+    grid-area: picture;
+}
+
+.username {
+    grid-area: username;
+}
+
+.login {
+    grid-area: authentication;
+}
+
+.logout {
+    grid-area: authentication;
+}
+
+aside h3 {
+    text-align: center;
+    font-style: italic;
+}
+
+hr {
+    width: 80%;
+}
