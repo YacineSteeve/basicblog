@@ -13,11 +13,22 @@
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
           crossorigin="anonymous">
 
+    <!-- Fonts -->
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Archivo&display=swap">
+
     <!-- Static Css file -->
     {% load static %}
     <link type="text/css"
           rel="stylesheet"
-          href="{% static 'css/style.css' %}"/>
+          href="{% static 'css/base-style.css' %}"/>
 
     <!-- The website title -->
     <title>WeBlog</title>
@@ -25,45 +36,63 @@
 
 <body>
     <div class="body element-to-center">
-        <header class="header grid-element">
-            <h1 class="section-title">WeBlog</h1>
-            <nav>
-                <div class="menu">
-                    <a href="{% url 'index' %}">Home</a>
-                    <a href="">Blogs</a>
-                    <a href="">Bloggers</a>
-                    <a href="/admin/">Contact us</a>
-                </div>
-                <div class="user">
-                    {% if user.is_authenticated %}
-                        <img src="{% static 'media/user.png' %}"
-                             alt="User's profile picture"
-                             class="profile-picture"/>
-                        <a href="" class="username">Username</a>
-                        <a href="" class="logout">Logout</a>
-                    {% else %}
-                        <a href="" class="login">Login</a>
-                    {% endif %}
-                </div>
-            </nav>
-        </header>
-        <main class="grid-element">
-            {% block main %}
+        <section class="top-section">
+            <header>
+                <h1 class="section-title"><a href="{% url 'index' %}">WeBlog</a></h1>
+                <nav>
+                    <div class="menu">
+                        <div>
+                            <a href="{% url 'index' %}">Home</a>
+                        </div>
+                        <div>
+                            <a href="">Blogs</a>
+                        </div>
+                        <div>
+                            <a href="">Bloggers</a>
+                        </div>
+                        <div>
+                            <a href="/admin/">Contact us</a>
+                        </div>
+                    </div>
+                    <div class="user">
+                        {% if user.is_authenticated %}
+                            <img src="{% static 'media/user.png' %}"
+                                 alt="User's profile picture"
+                                 class="profile-picture"/>
+                            <a href="" class="username">Username9012345</a>
+                            <a href="" class="logout">Logout</a>
+                        {% else %}
+                            <a href="" class="login">Login</a>
+                        {% endif %}
+                    </div>
+                </nav>
+            </header>
+        </section>
+        <section class="middle-section">
+            <main class="grid-element">
+                {% block main %}
 
-            {% endblock %}
-            <hr/>
-            {% block comment %}
+                {% endblock %}
+                <hr/>
+                {% block comment %}
 
-            {% endblock %}
-        </main>
-        <aside class="grid-element element-to-center">
-            <h3 class="section-title">Latest content</h3>
-            <p>lorem</p>
-            {% block latest %}
+                {% endblock %}
+            </main>
+            <aside class="grid-element element-to-center">
+                <h3 class="section-title">Latest content</h3>
+                <p>
+                    But why smiling man her imagine married. Chiefly can man her out believe manners cottage colonel
+                    unknown. Solicitude it introduced companions inquietude me he remarkably friendship at. My almost or
+                    horses period. Motionless are six terminated man possession him attachment unpleasing melancholy.
+                    Sir smile arose one share. No abroad in easily relied an whence lovers temper by. Looked wisdom
+                    common he an be giving length mr.
+                </p>
+                {% block latest %}
 
-            {% endblock %}
-        </aside>
-        <footer class="grid-element">
+                {% endblock %}
+            </aside>
+        </section>
+        <footer>
             <p class="copyright">&copy; YacineSteeve - 2022</p>
         </footer>
     </div>

@@ -1,0 +1,174 @@
+html {
+    scroll-behavior: smooth;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Archivo', sans-serif;
+    font-size: 1rem;
+    overflow-x: hidden;
+    background-color: darkcyan;
+}
+
+.element-to-center {
+    margin-left: 50%;
+    margin-right: 50%;
+    transform: translateX(-50%);
+}
+
+.body {
+    width: 75vw;
+    height: max-content;
+    box-shadow: 0 0 15px -5px black;
+}
+
+.top-section {
+    height: 70vh;
+    width: 75vw;
+    background-image: url(../media/background-beverage.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top;
+}
+
+header {
+    height: 100%;
+    position: relative;
+}
+
+h1 {
+    font-family: 'Kaushan Script', cursive;
+    font-weight: bold;
+    font-size: 4rem;
+    position: absolute;
+    left: 3vw;
+    top: 15vh;
+}
+
+h1 a:hover {
+    color: black;
+}
+
+header nav {
+    display: flex;
+    flex-wrap: wrap;
+    font-weight: bold;
+    width: 75vw;
+    height: 9.5vh;
+    border-bottom: 2px solid black;
+    position: absolute;
+    bottom: 0;
+}
+
+.menu {
+    display: flex;
+    width: 75%;
+    height: 100%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menu div {
+    border-right: 1px solid black;
+    width: 25%;
+    max-width: 25%;
+    height: 100%;
+    max-height: 100%;
+    text-align: center;
+}
+
+.menu div a {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    justify-content: space-evenly;
+    transition: 0s font-size;
+}
+
+.menu div a:hover {
+    font-size: 1.1rem;
+    transition: 0.05s ease-in-out;
+}
+
+.user {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-areas:
+            'picture username'
+            'picture login'
+            'picture logout';
+    column-gap: 1vw;
+    width: 25%;
+    padding-top: 1vh;
+    padding-left: 1.5vw;
+    padding-right: 1.5vw;
+}
+
+.profile-picture {
+    height: 50px;
+    grid-area: picture;
+}
+
+.username {
+    grid-area: username;
+}
+
+.login {
+    grid-area: login;
+}
+
+.logout {
+    grid-area: logout;
+}
+
+.middle-section {
+    display: grid;
+    grid-template-rows: auto;
+    grid-template-areas: 'main main main main main main sidebar';
+    width: 100%;
+    padding: 5vh 1vw 5vh 1vw;
+    background-image: url(../media/white-texture.webp);
+    background-repeat: repeat-y;
+    background-size: cover;
+    background-position: center;
+}
+
+main {
+    grid-area: main;
+    padding: 0 2vw 0 2vw;
+    text-align: justify;
+}
+
+aside {
+    grid-area: sidebar;
+    border: thin solid black;
+    border-radius: 10px;
+    width: 85%;
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+aside h3 {
+    text-align: center;
+}
+
+hr {
+    width: 90%;
+    color: black;
+    height: 15px;
+}
+
+footer {
+    border-top: 2px solid black;
+}
