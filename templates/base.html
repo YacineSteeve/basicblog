@@ -36,37 +36,36 @@
 
 <body>
     <div class="body element-to-center">
+        <nav>
+            <a href="{% url 'index' %}" class="logo">WeBlog</a>
+            <div class="menu">
+                <div>
+                    <a href="{% url 'index' %}">Home</a>
+                </div>
+                <div>
+                    <a href="">Blogs</a>
+                </div>
+                <div>
+                    <a href="">Bloggers</a>
+                </div>
+                <div>
+                    <a href="/admin/">Contact us</a>
+                </div>
+            </div>
+            <div class="user">
+                {% if user.is_authenticated %}
+                    <img src="{% static 'images/user_placeholder.png' %}"
+                         alt="User's profile picture"
+                         class="profile-picture"/>
+                    <a href="" class="username">{{ user.username }}</a>
+                    <a href="" class="logout"><i>Logout</i></a>
+                {% else %}
+                    <a href="" class="login">Login</a>
+                {% endif %}
+            </div>
+        </nav>
         <section class="top-section">
-            <header>
-                <h1 class="section-title"><a href="{% url 'index' %}">WeBlog</a></h1>
-                <nav>
-                    <div class="menu">
-                        <div>
-                            <a href="{% url 'index' %}">Home</a>
-                        </div>
-                        <div>
-                            <a href="">Blogs</a>
-                        </div>
-                        <div>
-                            <a href="">Bloggers</a>
-                        </div>
-                        <div>
-                            <a href="/admin/">Contact us</a>
-                        </div>
-                    </div>
-                    <div class="user">
-                        {% if user.is_authenticated %}
-                            <img src="{% static 'images/user_placeholder.png' %}"
-                                 alt="User's profile picture"
-                                 class="profile-picture"/>
-                            <a href="" class="username">{{ user.username }}</a>
-                            <a href="" class="logout"><i>Logout</i></a>
-                        {% else %}
-                            <a href="" class="login">Login</a>
-                        {% endif %}
-                    </div>
-                </nav>
-            </header>
+            <h1 class="section-title"><a href="{% url 'index' %}">WeBlog</a></h1>
         </section>
         <section class="middle-section">
             <main class="grid-element">
