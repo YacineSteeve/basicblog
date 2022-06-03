@@ -35,7 +35,7 @@ body {
 .top-section {
     height: 70vh;
     width: 75vw;
-    background-image: url(../media/background-beverage.jpg);
+    background-image: url(../images/background-beverage.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     background-position: top;
@@ -138,7 +138,7 @@ header nav {
     grid-template-areas: 'main main main main main main sidebar';
     width: 100%;
     padding: 5vh 1vw 5vh 1vw;
-    background-image: url(../media/white-texture.webp);
+    background-image: url(../images/white-texture.webp);
     background-repeat: repeat-y;
     background-size: cover;
     background-position: center;

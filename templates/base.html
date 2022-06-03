@@ -56,11 +56,11 @@
                     </div>
                     <div class="user">
                         {% if user.is_authenticated %}
-                            <img src="{% static 'media/user.png' %}"
+                            <img src="{% static 'images/user_placeholder.png' %}"
                                  alt="User's profile picture"
                                  class="profile-picture"/>
-                            <a href="" class="username">Username9012345</a>
-                            <a href="" class="logout">Logout</a>
+                            <a href="" class="username">{{ user.username }}</a>
+                            <a href="" class="logout"><i>Logout</i></a>
                         {% else %}
                             <a href="" class="login">Login</a>
                         {% endif %}
