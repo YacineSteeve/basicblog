@@ -111,8 +111,10 @@ nav {
 }
 
 .profile-picture {
-    height: 50px;
     grid-area: picture;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
 }
 
 .username {

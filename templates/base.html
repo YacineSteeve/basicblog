@@ -34,6 +34,15 @@
     <title>WeBlog</title>
 </head>
 
+<style>
+    .profile-picture {
+        background-image: url("{% if True %}{{ user.blogger.avatar.url|slice:"1:"}}{% else %}{% static 'images/user_placeholder.png' %}{% endif %}");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
+
 <body>
     <div class="body element-to-center">
         <nav>
@@ -54,9 +63,8 @@
             </div>
             <div class="user">
                 {% if user.is_authenticated %}
-                    <img src="{% static 'images/user_placeholder.png' %}"
-                         alt="User's profile picture"
-                         class="profile-picture"/>
+                    <div class="profile-picture" >
+                    </div>
                     <a href="" class="username">{{ user.username }}</a>
                     <a href="" class="logout"><i>Logout</i></a>
                 {% else %}

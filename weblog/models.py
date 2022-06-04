@@ -1,6 +1,13 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.auth.models import User
+import os
 import datetime
+
+
+def upload_to_user_directory(instance, filename) -> str:
+    new_filename = f'{instance.user.username}.{filename[-3:]}'
+    return os.path.join(instance.user.username, 'avatar', new_filename)
 
 
 class BlogPost(models.Model):
@@ -25,10 +32,8 @@ class BlogPost(models.Model):
 
 
 class Blogger(models.Model):
-    first_name = models.CharField(max_length=50, blank=True)
-    last_name = models.CharField(max_length=50, blank=True)
-    pseudo = models.CharField(max_length=50, unique=True)
-    avatar = models.ImageField(max_length=350, upload_to=f'{pseudo}/avatar', blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
+    avatar = models.ImageField(upload_to=upload_to_user_directory, blank=True)
     GENDERS = [
         (None, ''),
         ('M', 'Male'),
@@ -37,16 +42,15 @@ class Blogger(models.Model):
     ]
     gender = models.CharField(max_length=4, choices=GENDERS, blank=True)
     date_of_birth = models.DateField()
-    join_date = models.DateField()
 
     class Meta:
-        ordering = ['-join_date', 'pseudo']
+        ordering = ['user']
 
     def get_absolute_url(self):
-        return reverse('blogger-detail', args=[self.pseudo])
+        return reverse('blogger-detail', args=[self.user.username])
 
     def __str__(self):
-        return self.pseudo
+        return self.user.username
 
 
 class Comment(models.Model):
@@ -71,6 +75,7 @@ class Category(models.Model):
 
     class Meta:
         ordering = ['name']
+        verbose_name_plural = "categories"
 
     def __str__(self):
         return self.name.capitalize()
