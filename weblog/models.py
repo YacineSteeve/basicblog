@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+from django.utils import timezone
 from django.contrib.auth.models import User
 import os
 import datetime
@@ -15,16 +16,16 @@ class BlogPost(models.Model):
     author = models.ForeignKey('Blogger', on_delete=models.SET_NULL, null=True)
     categories = models.ManyToManyField('Category', blank=True)
     text_content = models.TextField(max_length=1500, unique=True)
-    post_date = models.DateTimeField()
+    post_date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         ordering = ['-post_date', 'author', 'title']
         get_latest_by = '-post_date'
 
     def get_blog_post_age(self) -> datetime.timedelta:
-        return datetime.datetime.now() - self.post_date
+        return timezone.now() - self.post_date
 
-    def get_absolute_url(self):
+    def get_absolute_url(self) -> str:
         return reverse('blog-post-detail', args=['-'.join(self.title)])
 
     def __str__(self):
@@ -46,28 +47,29 @@ class Blogger(models.Model):
     class Meta:
         ordering = ['user']
 
-    def get_absolute_url(self):
-        return reverse('blogger-detail', args=[self.user.username])
+    def get_absolute_url(self) -> str:
+        return reverse('blogger-detail', args=[str(self.id)])
 
     def __str__(self):
         return self.user.username
 
 
 class Comment(models.Model):
-    author = models.ForeignKey('Blogger', on_delete=models.SET_NULL, null=True)
+    blog_post_answered = models.ForeignKey('BlogPost', on_delete=models.CASCADE, null=True)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     content = models.TextField(max_length=300)
     answers = models.ManyToManyField('self', symmetrical=False, blank=True)
-    comment_date = models.DateTimeField()
+    comment_date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         ordering = ['-comment_date', 'author']
         get_latest_by = '-comment_date'
 
     def get_comment_age(self) -> datetime.timedelta:
-        return datetime.datetime.now() - self.comment_date
+        return timezone.now() - self.comment_date
 
     def __str__(self):
-        return self.content[:50]
+        return f'{self.content[:50]}...'
 
 
 class Category(models.Model):

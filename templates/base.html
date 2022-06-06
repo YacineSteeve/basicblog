@@ -36,7 +36,7 @@
 
 <style>
     .profile-picture {
-        background-image: url("{% if True %}{{ user.blogger.avatar.url|slice:"1:"}}{% else %}{% static 'images/user_placeholder.png' %}{% endif %}");
+        background-image: url("/weblog/{% if True %}{{ user.blogger.avatar.url|slice:"1:"}}{% else %}{% static 'images/user_placeholder.png' %}{% endif %}");
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
@@ -52,10 +52,10 @@
                     <a href="{% url 'index' %}">Home</a>
                 </div>
                 <div>
-                    <a href="">Blogs</a>
+                    <a href="{% url 'blog-posts-list' %}">Blogs</a>
                 </div>
                 <div>
-                    <a href="">Bloggers</a>
+                    <a href="{% url 'bloggers-list' %}">Bloggers</a>
                 </div>
                 <div>
                     <a href="/admin/">Contact us</a>
@@ -65,38 +65,35 @@
                 {% if user.is_authenticated %}
                     <div class="profile-picture" >
                     </div>
-                    <a href="" class="username">{{ user.username }}</a>
+                    <a href="{{ user.blogger.get_absolute_url }}" class="username">{{ user.username }}</a>
                     <a href="" class="logout"><i>Logout</i></a>
                 {% else %}
                     <a href="" class="login">Login</a>
                 {% endif %}
             </div>
         </nav>
-        <section class="top-section">
-            <h1 class="section-title"><a href="{% url 'index' %}">WeBlog</a></h1>
-        </section>
+        {% block top_section %}
+
+        {% endblock %}
         <section class="middle-section">
-            <main class="grid-element">
+            <main>
                 {% block main %}
 
                 {% endblock %}
-                <hr/>
-                {% block comment %}
-
-                {% endblock %}
             </main>
-            <aside class="grid-element element-to-center">
+            <aside>
                 <h3 class="section-title">Latest content</h3>
+                <br/>
                 <p>
-                    But why smiling man her imagine married. Chiefly can man her out believe manners cottage colonel
-                    unknown. Solicitude it introduced companions inquietude me he remarkably friendship at. My almost or
-                    horses period. Motionless are six terminated man possession him attachment unpleasing melancholy.
-                    Sir smile arose one share. No abroad in easily relied an whence lovers temper by. Looked wisdom
-                    common he an be giving length mr.
+                    But why smiling man her imagine married. Chiefly can man her out believe manners cottage
+                    colonel unknown.
+                    Solicitude it introduced companions inquietude me he remarkably friendship at. My almost or
+                    horses period.
+                    Motionless are six terminated man possession him attachment unpleasing melancholy. Sir smile
+                    arose one share.
+                    No abroad in easily relied an whence lovers temper by. Looked wisdom common he an be giving
+                    length mr.
                 </p>
-                {% block latest %}
-
-                {% endblock %}
             </aside>
         </section>
         <footer>

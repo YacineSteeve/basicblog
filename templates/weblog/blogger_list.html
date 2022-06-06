@@ -1,0 +1,14 @@
+{% extends '../base.html' %}
+
+{% block main %}
+    <h2>Our beloved bloggers</h2>
+    <ul>
+        {% for blogger in blogger_list %}
+            <li>
+                <a href="{{ blogger.get_absolute_url }}">{{ blogger.user.username }}</a>
+            </li>
+        {% empty %}
+            <li>No blogger is in activity here yet...</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
