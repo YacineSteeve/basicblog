@@ -23,10 +23,18 @@ class BlogPost(models.Model):
         get_latest_by = '-post_date'
 
     def get_blog_post_age(self) -> datetime.timedelta:
-        return timezone.now() - self.post_date
+        delta = timezone.now() - self.post_date
+        times = {
+            'seconds': delta.seconds,
+            'minutes': delta.minutes,
+            'hours': delta.hours,
+            'days': delta.days,
+            'weeks': delta.weeks
+        }
+        return delta
 
     def get_absolute_url(self) -> str:
-        return reverse('blog-post-detail', args=['-'.join(self.title)])
+        return reverse('blog-post-detail', args=[self.id])
 
     def __str__(self):
         return self.title

@@ -2,13 +2,34 @@
 
 {% block main %}
     <h2>Our beloved bloggers</h2>
+    <br/>
     <ul>
         {% for blogger in blogger_list %}
             <li>
-                <a href="{{ blogger.get_absolute_url }}">{{ blogger.user.username }}</a>
+                <a href="{{ blogger.get_absolute_url }}">
+                    <b>{{ blogger.user.username }}</b>
+                </a>
+                {% if blogger.blogpost_set.all %}
+                    <span class="text-muted">
+                        ({{ blogger.blogpost_set.all|length }} post{{ blogger.blogpost_set.all|pluralize }})
+                    </span>
+                    <p style="text-indent: 2rem;">
+                        Latest post:
+                        <a href="{{ blogger.blogpost_set.first.get_absolute_url }}">
+                            <b><i>{{ blogger.blogpost_set.first }} ({{ blogger.blogpost_set.first.get_blog_post_age }} ago)</i></b>
+                        </a>
+                        <br/>
+                        <span class="text-muted">
+                            <i>"{{ blogger.blogpost_set.first.text_content|slice:':50' }}..."</i>
+                        </span>
+                    </p>
+                {% else %}
+                    <span class="text-muted">(0 post)</span>
+                {% endif %}
             </li>
+            <hr/>
         {% empty %}
-            <li>No blogger is in activity here yet...</li>
+            <li>No blogger is active here yet...</li>
         {% endfor %}
     </ul>
 {% endblock %}
