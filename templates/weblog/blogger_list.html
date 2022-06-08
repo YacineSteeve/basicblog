@@ -5,29 +5,34 @@
     <br/>
     <ul>
         {% for blogger in blogger_list %}
-            <li>
-                <a href="{{ blogger.get_absolute_url }}">
-                    <b>{{ blogger.user.username }}</b>
-                </a>
-                {% if blogger.blogpost_set.all %}
-                    <span class="text-muted">
-                        ({{ blogger.blogpost_set.all|length }} post{{ blogger.blogpost_set.all|pluralize }})
-                    </span>
-                    <p style="text-indent: 2rem;">
-                        Latest post:
-                        <a href="{{ blogger.blogpost_set.first.get_absolute_url }}">
-                            <b><i>{{ blogger.blogpost_set.first }} ({{ blogger.blogpost_set.first.get_blog_post_age }} ago)</i></b>
-                        </a>
-                        <br/>
+            {% if not blogger.user.is_superuser %}
+                <li>
+                    <a href="{{ blogger.get_absolute_url }}">
+                        <b>{{ blogger.user.username }}</b>
+                    </a>
+                    {% if blogger.blogpost_set.all %}
                         <span class="text-muted">
-                            <i>"{{ blogger.blogpost_set.first.text_content|slice:':50' }}..."</i>
+                            ({{ blogger.blogpost_set.all|length }} post{{ blogger.blogpost_set.all|pluralize }})
                         </span>
-                    </p>
-                {% else %}
-                    <span class="text-muted">(0 post)</span>
-                {% endif %}
-            </li>
-            <hr/>
+                        <p style="text-indent: 2rem; font-size: 0.9rem;">
+                            Latest post:
+                            <a href="{{ blogger.blogpost_set.latest.get_absolute_url }}">
+                                <i>
+                                    <b>{{ blogger.blogpost_set.latest }} </b>
+                                    ({{ blogger.blogpost_set.latest.get_blog_post_age }})
+                                </i>
+                            </a>
+                            <br/>
+                            <span class="text-muted">
+                                <i>"{{ blogger.blogpost_set.latest.text_content|slice:':75' }}..."</i>
+                            </span>
+                        </p>
+                    {% else %}
+                        <span class="text-muted">(0 post)</span>
+                    {% endif %}
+                </li>
+                <hr/>
+            {% endif %}
         {% empty %}
             <li>No blogger is active here yet...</li>
         {% endfor %}
