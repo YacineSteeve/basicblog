@@ -29,19 +29,13 @@
     <link type="text/css"
           rel="stylesheet"
           href="{% static 'css/base-style.css' %}"/>
+    <link type="text/css"
+          rel="stylesheet"
+          href="{% static 'css/blogger-detail-style.css' %}"/>
 
     <!-- The website title -->
     <title>WeBlog</title>
 </head>
-
-<style>
-    .profile-picture {
-        background-image: url("/weblog/{% if True %}{{ user.blogger.avatar.url|slice:"1:"}}{% else %}{% static 'images/user_placeholder.png' %}{% endif %}");
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
-</style>
 
 <body>
     <div class="body element-to-center">
@@ -63,7 +57,8 @@
             </div>
             <div class="user">
                 {% if user.is_authenticated %}
-                    <div class="profile-picture" >
+                    <div class="profile-picture"
+                         style="background-image: url('/weblog{% if True %}{{ user.blogger.avatar.url }}{% else %}{% static 'images/user_placeholder.png' %}{% endif %}');">
                     </div>
                     <a href="{{ user.blogger.get_absolute_url }}" class="username">{{ user.username }}</a>
                     <a href="" class="logout"><i>Logout</i></a>

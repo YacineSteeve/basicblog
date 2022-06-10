@@ -45,6 +45,9 @@ class BlogPost(models.Model):
         ordering = ['-post_date', 'author', 'title']
         get_latest_by = '-post_date'
 
+    def get_categories(self):
+        return [category for category in self.categories.all()]
+
     def get_blog_post_age(self) -> str:
         delta = convert_timedelta_to_dict(timezone.now() - self.post_date)
         for time, value in list(delta.items())[:0:-1]:
@@ -96,7 +99,7 @@ class Comment(models.Model):
         return timezone.now() - self.comment_date
 
     def __str__(self):
-        return f'{self.content[:50]}...'
+        return f'{self.content[:75]}...'
 
 
 class Category(models.Model):

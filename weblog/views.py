@@ -13,7 +13,7 @@ def index(request: HttpRequest) -> HttpResponse:
 
 class BlogPostListView(generic.ListView):
     model = BlogPost
-    paginate_by = 5
+    paginate_by = 10
 
 
 class BloggerListView(generic.ListView):

@@ -1,6 +1,41 @@
 {% extends '../base.html' %}
 
 {% block main %}
-    <h2>{{ blogger }}</h2>
-    <p>Some random stuff</p>
+    <div class="blogger-header">
+        <div class="profile-picture"
+             style="background-image: url('/weblog{{ blogger.avatar.url }}');">
+        </div>
+        <div class="blogger-infos">
+            {% if blogger.user.first_name and blogger.user.last_name %}
+                <h2>{{ blogger.user.first_name }} {{ blogger.user.last_name }}</h2>
+            {% else %}
+                <h2>{{ blogger.user.username }}</h2>
+            {% endif %}
+            <a href="{{ blogger.get_absolute_url }}" class="text-muted">@{{ blogger.user.username }}</a>
+        </div>
+    </div>
+    <hr/>
+    <h3>Posts</h3>
+    <ul>
+        {% for blog_post in blogger.blogpost_set.all %}
+            <li>
+                <div class="blogger-posts">
+                    <div>
+                        <a href="{{ blog_post.get_absolute_url }}"><b>{{ blog_post.title }}</b></a>
+                    </div>
+                    <div class="text-muted">
+                        posted on {{ blog_post.post_date }}
+                    </div>
+                </div>
+                <i>
+                    {% for category in blog_post.get_categories %}
+                        {% if forloop.first %}(about &nbsp;{% endif %}{{ category }}{% if forloop.last %}){% else %}, {% endif %}
+                    {% endfor %}
+                </i>
+            </li>
+            <br/>
+        {% empty %}
+            <li class="text-muted">This blogger has no post for the moment...</li>
+        {% endfor %}
+    </ul>
 {% endblock %}

@@ -7,7 +7,11 @@ a {
     text-decoration: none;
 }
 
-a:hover {
+nav a:hover {
+    text-decoration: none;
+}
+
+.top-section a:hover {
     text-decoration: none;
 }
 
@@ -115,6 +119,9 @@ nav {
     height: 50px;
     width: 50px;
     border-radius: 50%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .username {
