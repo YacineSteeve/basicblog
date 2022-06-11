@@ -1,6 +1,30 @@
 {% extends '../base.html' %}
 
 {% block main %}
-    <h2>Nothing here</h2>
-    <p>Some random stuff</p>
+    <h2>All blog posts</h2>
+    <br/>
+    <ul class="blog-post-list">
+        {% for blog_post in blogpost_list %}
+            {% if not blog_post.author.user.is_superuser %}
+                <li>
+                    <div class="blog-posts">
+                        <div>
+                            <a href="{{ blog_post.get_absolute_url }}"><strong>{{ blog_post }}</strong></a>
+                            &nbsp; (by <a href="{{ blog_post.author.get_absolute_url }}" class="blog-post-author">{{ blog_post.author }}</a>)
+                        </div>
+                        <div>
+                            <p class="text-muted"><i>{{ blog_post.get_blog_post_age }}</i></p>
+                        </div>
+                    </div>
+                    <hr/>
+                </li>
+            {% endif %}
+        {% empty %}
+            <li>
+                No blog is online right now...
+                <br/>
+                Be the first to add one! <u><a href="">Click here</a></u> to become a famous blogger.
+            </li>
+        {% endfor %}
+    </ul>
 {% endblock %}
