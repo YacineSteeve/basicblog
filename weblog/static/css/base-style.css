@@ -146,7 +146,7 @@ nav {
     background-position: bottom;
 }
 
-h1 {
+.top-section h1 {
     font-family: 'Kaushan Script', cursive;
     font-weight: bold;
     font-size: 5rem;
@@ -155,7 +155,7 @@ h1 {
     top: 13vh;
 }
 
-h1 a:hover {
+.top-section h1 a:hover {
     color: black;
 }
 
@@ -172,8 +172,7 @@ h1 a:hover {
 
 main {
     width: 60vw;
-    padding: 0 2vw 0 2vw;
-    text-align: justify;
+    padding: 0 3vw 0 3vw;
 }
 
 aside {
@@ -238,4 +237,26 @@ footer {
 
 .blog-post-author {
     border-bottom: 1px dotted black;
+}
+
+.blog-post-header {
+    height: fit-content;
+    width: 80%;
+    min-width: 80%;
+    display: flex;
+    flex-direction: column;
+}
+
+.blog-post-header > * {
+    width: 100%;
+    text-align: center;
+}
+
+.blog-post-header .blog-post-title {
+    margin-block: 10vh;
+}
+
+.blog-post-header .blog-post-infos {
+    display: flex;
+    justify-content: space-evenly;
 }

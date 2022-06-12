@@ -1,6 +1,25 @@
 {% extends '../base.html' %}
 
 {% block main %}
-    <h2>Nothing here</h2>
-    <p>Some random stuff</p>
+    <section class="blog-post-header element-to-center">
+        <i class="text-muted">{{ blogpost.get_categories|join:', ' }}</i>
+        <h2 class="blog-post-title">{{ blogpost.title }}</h2>
+        <div class="blog-post-infos">
+            <p>
+                <i class="fas fa-user"></i> &nbsp;
+                <a href="{{ blogpost.author.get_absolute_url }}" class="blog-post-author">{{ blogpost.author }}</a>
+            </p>
+            <p><i class="fas fa-clock"></i> &nbsp; {{ blogpost.post_date }}</p>
+        </div>
+    </section>
+    <br/><br/>
+    <section class="content">
+        <p>{{ blogpost.text_content }}</p>
+    </section>
+    <br/>
+    <hr/>
+    <br/>
+    <section class="comments">
+        <h3>Comments</h3>
+    </section>
 {% endblock %}

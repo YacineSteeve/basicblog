@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'weblog.apps.WeblogConfig',
+    'django_static_fontawesome'
 ]
 
 MIDDLEWARE = [
