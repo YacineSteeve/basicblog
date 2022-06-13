@@ -260,3 +260,75 @@ footer {
     display: flex;
     justify-content: space-evenly;
 }
+
+.blog-post-comments {
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+}
+
+.blog-post-comments > ul {
+    list-style: none;
+    width: 50vw;
+    padding-inline: 0;
+    margin-top: 5vh;
+    border-radius: 1rem;
+}
+
+.comment {
+    padding: 1rem;
+    border-bottom: thick double black;
+    position: relative;
+}
+
+.comment hr {
+    margin-block: 0;
+}
+
+.comment-header {
+    display: flex;
+    height: 25px;
+    width: fit-content;
+    margin-bottom: 1vh;
+    justify-content: space-between;
+}
+
+.comment-author-avatar {
+    height: 25px;
+    width: 25px;
+}
+
+.comment-header p {
+    height: 100%;
+    text-align: center;
+}
+
+.comment-content {
+    text-indent: 2rem;
+}
+
+.comment .answer {
+    list-style: none;
+}
+
+.answer p {
+    margin-bottom: 0;
+}
+
+.comment-button {
+    font-size: 1rem;
+    width: max-content;
+    margin-top: 5vh;
+    border-radius: 5px;
+    background-color: transparent;
+}
+
+.comment-button:hover {
+    color: navy;
+    background-color: rgba(255, 255, 255, .5);
+}
+
+.answer-button {
+    position: absolute;
+    right: 1vw;
+    bottom: 1vh;
+}

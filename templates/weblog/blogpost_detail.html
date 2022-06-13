@@ -6,20 +6,87 @@
         <h2 class="blog-post-title">{{ blogpost.title }}</h2>
         <div class="blog-post-infos">
             <p>
-                <i class="fas fa-user"></i> &nbsp;
-                <a href="{{ blogpost.author.get_absolute_url }}" class="blog-post-author">{{ blogpost.author }}</a>
+                <i class="fa fa-user"></i> &nbsp;
+                by <a href="{{ blogpost.author.get_absolute_url }}" class="blog-post-author">{{ blogpost.author }}</a>
             </p>
-            <p><i class="fas fa-clock"></i> &nbsp; {{ blogpost.post_date }}</p>
+            <p><i class="fa fa-calendar"></i> &nbsp; {{ blogpost.post_date.date }}</p>
+            <p>
+                <i class="fa fa-comments"></i> &nbsp;
+                {{ blogpost.get_comments_number }} comment{{ blogpost.get_comments_number|pluralize }}
+            </p>
         </div>
     </section>
     <br/><br/>
-    <section class="content">
-        <p>{{ blogpost.text_content }}</p>
+    <section class="blog-post-content">
+        <p>{{ blogpost.content }}</p>
     </section>
     <br/>
     <hr/>
     <br/>
-    <section class="comments">
-        <h3>Comments</h3>
+    <section class="blog-post-comments">
+        <h4>Comments</h4>
+        <ul>
+            {% for comment in blogpost.comment_set.all %}
+                <li class="comment">
+                    <div class="comment-header">
+                        {% if comment.author.blogger %}
+                            <div class="profile-picture comment-author-avatar"
+                                 style="background-image: url('/weblog{{ comment.author.blogger.avatar.url }}');">
+                            </div>
+                            <p>
+                                &emsp;<a href="{{ comment.author.blogger.get_absolute_url }}">{{ comment.author }}</a>
+                                (blogger)&emsp;
+                                <i class="text-muted">{{ comment.comment_date.date }} at {{ comment.comment_date.time }}</i>
+                            </p>
+                        {% else %}
+                            <div class="profile-picture comment-author-avatar"
+                                 style="background-image: url({{ STATIC_PREFIX }}images/user_placeholder.png)">
+                            </div>
+                            <p>
+                                &emsp;{{ comment.author }}&emsp;
+                                <i class="text-muted">{{ comment.comment_date.date }} at {{ comment.comment_date.time }}</i>
+                            </p>
+                        {% endif %}
+                    </div>
+                    <p class="comment-content">{{ comment.content }}</p>
+
+                    {% if comment.answer_set.all %}
+                        <ul>
+                            {% for answer in comment.answer_set.all %}
+                                <li class="answer">
+                                    <hr/>
+                                    <div class="comment-header">
+                                        {% if answer.author.blogger %}
+                                            <div class="profile-picture comment-author-avatar"
+                                                 style="background-image: url('/weblog{{ answer.author.blogger.avatar.url }}');">
+                                            </div>
+                                            <p>
+                                                &emsp;<a href="{{ answer.author.blogger.get_absolute_url }}">{{ answer.author }}</a>
+                                                (blogger)&emsp;
+                                                <i class="text-muted">{{ answer.answer_date.date }} at {{ answer.answer_date.time }}</i>
+                                            </p>
+                                        {% else %}
+                                            <div class="profile-picture comment-author-avatar"
+                                                 style="background-image: url({{ STATIC_PREFIX }}images/user_placeholder.png)">
+                                            </div>
+                                            <p>
+                                                &emsp;{{ answer.author }}&emsp;
+                                                <i class="text-muted">{{ answer.answer_date.date }} at {{ answer.answer_date.time }}</i>
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                    <p class="comment-content">{{ answer.content }}</p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+
+                    <button type="button" class="comment-button answer-button">Answer</button>
+                </li>
+            {% empty %}
+                <li>&emsp;No comment</li>
+            {% endfor %}
+        </ul>
+        <button type="button" class="comment-button element-to-center">Add a comment</button>
     </section>
-{% endblock %}
+{% endblock main %}

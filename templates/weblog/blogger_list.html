@@ -10,26 +10,22 @@
                     <a href="{{ blogger.get_absolute_url }}">
                         <b>{{ blogger.user.username }}</b>
                     </a>
-                    {% if blogger.blogpost_set.all %}
+                    <span class="text-muted">
+                        ({{ blogger.blogpost_set.all|length }} post{{ blogger.blogpost_set.all|pluralize }})
+                    </span>
+                    <p class="blogger-latest-post">
+                        Latest post:
+                        <a href="{{ blogger.blogpost_set.latest.get_absolute_url }}">
+                            <i>
+                                <strong>{{ blogger.blogpost_set.latest }} </strong>
+                                ({{ blogger.blogpost_set.latest.get_blog_post_age }})
+                            </i>
+                        </a>
+                        <br/>
                         <span class="text-muted">
-                            ({{ blogger.blogpost_set.all|length }} post{{ blogger.blogpost_set.all|pluralize }})
+                            <i>"{{ blogger.blogpost_set.latest.content|slice:':75' }}..."</i>
                         </span>
-                        <p class="blogger-latest-post">
-                            Latest post:
-                            <a href="{{ blogger.blogpost_set.latest.get_absolute_url }}">
-                                <i>
-                                    <strong>{{ blogger.blogpost_set.latest }} </strong>
-                                    ({{ blogger.blogpost_set.latest.get_blog_post_age }})
-                                </i>
-                            </a>
-                            <br/>
-                            <span class="text-muted">
-                                <i>"{{ blogger.blogpost_set.latest.text_content|slice:':75' }}..."</i>
-                            </span>
-                        </p>
-                    {% else %}
-                        <span class="text-muted">(0 post)</span>
-                    {% endif %}
+                    </p>
                 </li>
                 <hr/>
             {% endif %}

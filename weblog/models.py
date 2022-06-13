@@ -38,14 +38,14 @@ class BlogPost(models.Model):
     title = models.CharField(max_length=100, unique=True)
     author = models.ForeignKey('Blogger', on_delete=models.SET_NULL, null=True)
     categories = models.ManyToManyField('Category', blank=True)
-    text_content = models.TextField(max_length=1500, unique=True)
+    content = models.TextField(max_length=1500, unique=True)
     post_date = models.DateTimeField(default=timezone.now)
 
     class Meta:
         ordering = ['-post_date', 'author', 'title']
         get_latest_by = '-post_date'
 
-    def get_categories(self):
+    def get_categories(self) -> list:
         return [category for category in self.categories.all()]
 
     def get_blog_post_age(self) -> str:
@@ -54,6 +54,14 @@ class BlogPost(models.Model):
             if value != 0:
                 return f'{value} {time} ago' if value >= 2 else f'{value} {time[:-1]} ago'
         return 'now'
+
+    def get_comments_number(self) -> int:
+        comments = self.comment_set.all()
+        total = len(comments)
+        for comment in comments:
+            total += len(comment.answer_set.all())
+
+        return total
 
     def get_absolute_url(self) -> str:
         return reverse('blog-post-detail', args=[self.id])
@@ -88,7 +96,6 @@ class Comment(models.Model):
     blog_post_answered = models.ForeignKey('BlogPost', on_delete=models.CASCADE, null=True)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     content = models.TextField(max_length=300)
-    answers = models.ManyToManyField('self', symmetrical=False, blank=True)
     comment_date = models.DateTimeField(default=timezone.now)
 
     class Meta:
@@ -97,6 +104,23 @@ class Comment(models.Model):
 
     def get_comment_age(self) -> datetime.timedelta:
         return timezone.now() - self.comment_date
+
+    def __str__(self):
+        return f'{self.content[:75]}...'
+
+
+class Answer(models.Model):
+    comment_answered = models.ForeignKey('Comment', on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    content = models.TextField(max_length=300)
+    answer_date = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        ordering = ['-answer_date', 'author']
+        get_latest_by = '-answer_date'
+
+    def get_answer_age(self) -> datetime.timedelta:
+        return timezone.now() - self.answer_date
 
     def __str__(self):
         return f'{self.content[:75]}...'
