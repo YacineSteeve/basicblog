@@ -319,16 +319,49 @@ footer {
     width: max-content;
     margin-top: 5vh;
     border-radius: 5px;
-    background-color: transparent;
+    background-color: rgba(255, 255, 255, .3);
 }
 
 .comment-button:hover {
     color: navy;
-    background-color: rgba(255, 255, 255, .5);
+    background-color: rgba(255, 255, 255, .6);
 }
 
-.answer-button {
+.new-answer-button {
     position: absolute;
     right: 1vw;
     bottom: 1vh;
+}
+
+.new-comment {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 35vh;
+    width: 100%;
+    margin-top: 5vh;
+    position: relative;
+}
+
+#comment-text-area {
+    width: 100%;
+    height: 80%;
+    border-radius: 10px;
+    padding: 1rem;
+    position: absolute;
+    top: 0;
+}
+
+.new-comment-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 20%;
+    height: fit-content;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.cancel-button {
+    background-color: red;
 }
