@@ -1,68 +1,29 @@
 let newCommentButton = document.querySelector('.new-comment-button');
 let newAnswerButtons = document.querySelectorAll('.new-answer-button');
+let cancelButtons = document.querySelectorAll('.cancel-button');
 
 
 function removeCommentDiv(event) {
-    let commentButton = document.createElement('button');
-
-    commentButton.classList.add('comment-button');
-    commentButton.setAttribute('type', 'button');
-    commentButton.addEventListener('click', createCommentDiv);
-
-    if (event.target.parentNode.parentNode.parentNode.className === 'blog-post-comments') {
-        commentButton.classList.add('new-comment-button', 'element-to-center');
-        commentButton.textContent = 'Add a comment';
-    } else {
-        commentButton.classList.add('new-answer-button');
-        commentButton.textContent = 'Answer';
-    }
-
-    event.target.parentNode.parentNode.parentNode.appendChild(commentButton);
-    event.target.parentNode.parentNode.parentNode.removeChild(event.target.parentNode.parentNode);
+    let commentDiv = event.target.parentNode.parentNode
+    let commentButton = event.target.parentNode.parentNode.parentNode.childNodes[event.target.parentNode.parentNode.parentNode.childNodes.length - 4];
+    console.log(commentButton);
+    commentButton.style.height = 'fit-content';
+    commentButton.style.visibility = 'visible';
+    commentDiv.style.height = '0';
+    commentDiv.style.marginTop = '0';
+    commentDiv.style.visibility = 'hidden';
 }
 
+
 function createCommentDiv(event) {
-    let commentDiv = document.createElement('div');
-    let fakeLabel = document.createElement('label');
-    let textArea = document.createElement('textarea');
-    let newCommentButtonsDiv = document.createElement('div');
-    let cancelButton = document.createElement('button');
-    let postButton = document.createElement('button');
+    let commentDiv = event.target.parentNode.childNodes[event.target.parentNode.childNodes.length - 2];
+    let commentButton = event.target;
 
-    commentDiv.classList.add('new-comment');
-
-    fakeLabel.setAttribute('for', 'comment-text-area');
-    textArea.setAttribute('cols', '25');
-    textArea.setAttribute('rows', '5');
-    textArea.setAttribute('wrap', 'soft');
-    textArea.setAttribute('name', 'comment-text-area');
-    textArea.setAttribute('placeholder', 'Enter your comment');
-    textArea.setAttribute('autocomplete', 'on');
-    textArea.setAttribute('spellcheck', 'true');
-    textArea.setAttribute('minlength', '1');
-    textArea.setAttribute('maxlength', '255');
-    textArea.setAttribute('id', 'comment-text-area');
-
-    newCommentButtonsDiv.classList.add('new-comment-buttons');
-
-    cancelButton.setAttribute('type', 'button');
-    cancelButton.classList.add('comment-button', 'cancel-button');
-    cancelButton.textContent = 'Cancel';
-    cancelButton.addEventListener('click', removeCommentDiv);
-
-    postButton.setAttribute('type', 'button');
-    postButton.classList.add('comment-button', 'post-button');
-    postButton.textContent = 'Post'
-
-    newCommentButtonsDiv.appendChild(cancelButton);
-    newCommentButtonsDiv.appendChild(postButton);
-
-    commentDiv.appendChild(fakeLabel);
-    commentDiv.appendChild(textArea);
-    commentDiv.appendChild(newCommentButtonsDiv);
-
-    event.target.parentNode.appendChild(commentDiv);
-    event.target.parentNode.removeChild(event.target);
+    commentButton.style.height = '0';
+    commentButton.style.visibility = 'hidden';
+    commentDiv.style.height = '35vh';
+    commentDiv.style.marginTop = '5vh';
+    commentDiv.style.visibility = 'visible';
 
     commentDiv.scrollIntoView({block: 'center', behavior: 'smooth'});
 }
@@ -71,4 +32,8 @@ newCommentButton.addEventListener('click', createCommentDiv);
 
 for (const button of newAnswerButtons) {
     button.addEventListener('click', createCommentDiv);
+}
+
+for (const button of cancelButtons) {
+    button.addEventListener('click', removeCommentDiv);
 }

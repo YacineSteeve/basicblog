@@ -331,35 +331,35 @@ footer {
     position: absolute;
     right: 1vw;
     bottom: 1vh;
+    margin-top: 0;
 }
 
-.new-comment {
+.new-comment-buttons {
+    display: flex;
+    justify-content: space-between;
+    height: fit-content;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.comment-form {
+    visibility: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 35vh;
+    height: 0;
     width: 100%;
-    margin-top: 5vh;
     position: relative;
 }
 
-#comment-text-area {
+.comment-form textarea {
     width: 100%;
     height: 80%;
     border-radius: 10px;
     padding: 1rem;
     position: absolute;
     top: 0;
-}
-
-.new-comment-buttons {
-    display: flex;
-    justify-content: space-between;
-    width: 20%;
-    height: fit-content;
-    position: absolute;
-    bottom: 0;
-    right: 0;
 }
 
 .cancel-button {

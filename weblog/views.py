@@ -1,7 +1,9 @@
 from django.views import generic
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.http import HttpRequest, HttpResponse
 from .models import BlogPost, Blogger, Comment, Answer, Category
+from .forms import CommentForm, AnswerForm
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -29,6 +31,19 @@ class BloggerListView(generic.ListView):
 class BlogPostDetailView(generic.DetailView):
     model = BlogPost
 
+    def get_context_data(self, **kwargs):
+        comment_form = CommentForm(initial={
+            'blog_post_answered': self.object,
+            'author': self.object.author,
+        })
+        answer_form = AnswerForm()
+
+        context = super().get_context_data(**kwargs)
+        context['comment_form'] = comment_form
+        context['answer_form'] = answer_form
+
+        return context
+
 
 class BloggerDetailView(generic.DetailView):
     model = Blogger
@@ -46,6 +61,8 @@ class BlogPostCreate(generic.CreateView):
 
 class CommentCreate(generic.CreateView):
     model = Comment
+    fields = ['blog_post_answered', 'author', 'content', 'comment_date']
+    success_url = reverse_lazy('blog-post-detail')
 
 
 class AnswerCreate(generic.CreateView):
@@ -58,35 +75,35 @@ class CategoryCreate(generic.CreateView):
 # ------------ Update Views -------------- #
 
 
-class BloggerUpdate(generic.CreateView):
+class BloggerUpdate(generic.UpdateView):
     model = Blogger
 
 
-class BlogPostUpdate(generic.CreateView):
+class BlogPostUpdate(generic.UpdateView):
     model = BlogPost
 
 
-class CategoryUpdate(generic.CreateView):
+class CategoryUpdate(generic.UpdateView):
     model = Category
 
 # ------------ Delete Views -------------- #
 
 
-class BloggerDelete(generic.CreateView):
+class BloggerDelete(generic.DeleteView):
     model = Blogger
 
 
-class BlogPostDelete(generic.CreateView):
+class BlogPostDelete(generic.DeleteView):
     model = BlogPost
 
 
-class CommentDelete(generic.CreateView):
+class CommentDelete(generic.DeleteView):
     model = Comment
 
 
-class AnswerDelete(generic.CreateView):
+class AnswerDelete(generic.DeleteView):
     model = Answer
 
 
-class CategoryDelete(generic.CreateView):
+class CategoryDelete(generic.DeleteView):
     model = Category
