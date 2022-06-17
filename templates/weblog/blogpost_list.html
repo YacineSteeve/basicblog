@@ -1,6 +1,27 @@
 {% extends '../base.html' %}
 
 {% block main %}
+    {% if user in bloggers %}
+        <h2>My blog posts</h2>
+        <br/>
+        <ul class="blog-post-list">
+            {% for blog_post in user_blogposts_list %}
+                {% if blog_post.author.user == user %}
+                    <li>
+                        <div class="blog-posts">
+                            <div>
+                                <a href="{{ blog_post.get_absolute_url }}"><strong>{{ blog_post }}</strong></a>&nbsp;
+                            </div>
+                            <div>
+                                <p class="text-muted"><i>{{ blog_post.get_blog_post_age }}</i></p>
+                            </div>
+                        </div>
+                        <hr/>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
     <h2>All blog posts</h2>
     <br/>
     <ul class="blog-post-list">

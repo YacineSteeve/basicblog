@@ -1,7 +1,8 @@
-from django.views import generic
+from django.views import generic, View
 from django.shortcuts import render
-from django.urls import reverse_lazy
-from django.http import HttpRequest, HttpResponse
+from django.urls import reverse
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
+from django.contrib.auth.models import User
 from .models import BlogPost, Blogger, Comment, Answer, Category
 from .forms import CommentForm, AnswerForm
 
@@ -20,6 +21,11 @@ class BlogPostListView(generic.ListView):
     model = BlogPost
     paginate_by = 10
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['bloggers'] = [blogger.user for blogger in Blogger.objects.all()]
+        return context
+
 
 class BloggerListView(generic.ListView):
     model = Blogger
@@ -32,15 +38,9 @@ class BlogPostDetailView(generic.DetailView):
     model = BlogPost
 
     def get_context_data(self, **kwargs):
-        comment_form = CommentForm(initial={
-            'blog_post_answered': self.object,
-            'author': self.object.author,
-        })
-        answer_form = AnswerForm()
-
         context = super().get_context_data(**kwargs)
-        context['comment_form'] = comment_form
-        context['answer_form'] = answer_form
+        context['comment_form'] = CommentForm()
+        context['answer_form'] = AnswerForm()
 
         return context
 
@@ -59,14 +59,28 @@ class BlogPostCreate(generic.CreateView):
     model = BlogPost
 
 
-class CommentCreate(generic.CreateView):
+class CommentCreate(View):
     model = Comment
-    fields = ['blog_post_answered', 'author', 'content', 'comment_date']
-    success_url = reverse_lazy('blog-post-detail')
+
+    def post(self, request, *args, **kwargs):
+        Comment(
+            blog_post_answered=BlogPost.objects.get(id=self.kwargs['pk']),
+            author=User.objects.get(id=self.kwargs['user_id']),
+            content=request.POST['content']
+        ).save()
+        return HttpResponseRedirect(reverse('blog-post-detail', args=[self.kwargs['pk']]))
 
 
-class AnswerCreate(generic.CreateView):
+class AnswerCreate(View):
     model = Answer
+
+    def post(self, request, *args, **kwargs):
+        Answer(
+            comment_answered=Comment.objects.get(id=self.kwargs['comment_id']),
+            author=User.objects.get(id=self.kwargs['user_id']),
+            content=request.POST['content']
+        ).save()
+        return HttpResponseRedirect(reverse('blog-post-detail', args=[self.kwargs['pk']]))
 
 
 class CategoryCreate(generic.CreateView):

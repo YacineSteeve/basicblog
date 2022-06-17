@@ -81,12 +81,12 @@
                         </ul>
                     {% endif %}
                     <button type="button" class="comment-button new-answer-button">Answer</button>
-                    <form action="" method="post" class="comment-form">
+                    <form action="{% url 'answer-create' blogpost.pk user.id comment.id %}" method="post" class="comment-form">
                         {% csrf_token %}
                         {{ answer_form.content }}
                         <div class="new-comment-buttons">
                             <input type="button" value="Cancel" class="comment-button cancel-button"/>
-                            <input type="submit" value="Submit" class="comment-button post-comment"/>
+                            <input type="submit" value="Post" class="comment-button post-comment"/>
                         </div>
                     </form>
                 </li>
@@ -95,15 +95,12 @@
             {% endfor %}
         </ul>
         <button type="button" class="comment-button new-comment-button element-to-center">Add a comment</button>
-        <form action="" method="post" class="comment-form">
+        <form action="{% url 'comment-create' blogpost.pk user.id %}" method="post" class="comment-form">
             {% csrf_token %}
-            <div style="visibility: hidden;">{{ comment_form.blog_post_answered }}</div>
-            <div style="visibility: hidden;">{{ comment_form.author }}</div>
             {{ comment_form.content }}
-            <div style="visibility: hidden;">{{ comment_form.comment_date }}</div>
             <div class="new-comment-buttons">
                 <input type="button" value="Cancel" class="comment-button cancel-button"/>
-                <input type="submit" value="Submit" class="comment-button post-comment"/>
+                <input type="submit" value="Post" class="comment-button post-comment"/>
             </div>
         </form>
     </section>
