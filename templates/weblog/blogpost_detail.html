@@ -81,27 +81,31 @@
                         </ul>
                     {% endif %}
                     <button type="button" class="comment-button new-answer-button">Answer</button>
-                    <form action="{% url 'answer-create' blogpost.pk user.id comment.id %}" method="post" class="comment-form">
-                        {% csrf_token %}
-                        {{ answer_form.content }}
-                        <div class="new-comment-buttons">
-                            <input type="button" value="Cancel" class="comment-button cancel-button"/>
-                            <input type="submit" value="Post" class="comment-button post-comment"/>
-                        </div>
-                    </form>
+                    {% if user.is_authenticated %}
+                        <form action="{% url 'answer-create' blogpost.pk user.id comment.id %}" method="post" class="comment-form">
+                            {% csrf_token %}
+                            {{ answer_form.content }}
+                            <div class="new-comment-buttons">
+                                <input type="button" value="Cancel" class="comment-button cancel-button"/>
+                                <input type="submit" value="Post" class="comment-button post-comment"/>
+                            </div>
+                        </form>
+                    {% endif %}
                 </li>
             {% empty %}
                 <li>&emsp;No comment</li>
             {% endfor %}
         </ul>
         <button type="button" class="comment-button new-comment-button element-to-center">Add a comment</button>
-        <form action="{% url 'comment-create' blogpost.pk user.id %}" method="post" class="comment-form">
-            {% csrf_token %}
-            {{ comment_form.content }}
-            <div class="new-comment-buttons">
-                <input type="button" value="Cancel" class="comment-button cancel-button"/>
-                <input type="submit" value="Post" class="comment-button post-comment"/>
-            </div>
-        </form>
+        {% if user.is_authenticated %}
+            <form action="{% url 'comment-create' blogpost.pk user.id %}" method="post" class="comment-form">
+                {% csrf_token %}
+                {{ comment_form.content }}
+                <div class="new-comment-buttons">
+                    <input type="button" value="Cancel" class="comment-button cancel-button"/>
+                    <input type="submit" value="Post" class="comment-button post-comment"/>
+                </div>
+            </form>
+        {% endif %}
     </section>
 {% endblock main %}

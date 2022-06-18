@@ -1,10 +1,11 @@
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
     path('', views.index, name='index'),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('blogs/', views.BlogPostListView.as_view(), name='blog-posts-list'),
     path('blogs/<int:pk>/', views.BlogPostDetailView.as_view(), name='blog-post-detail'),
     path('blogs/<int:pk>/<int:user_id>/comments/create/', views.CommentCreate.as_view(), name='comment-create'),

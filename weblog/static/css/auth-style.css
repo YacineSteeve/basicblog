@@ -1,0 +1,61 @@
+body {
+    margin: 0;
+    padding: 0;
+    color: gold;
+    font-family: 'Archivo', sans-serif;
+    font-size: 1rem;
+    overflow: hidden;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70vw;
+    height: 100vh;
+    margin-left: 50%;
+    margin-right: 50%;
+    transform: translate(-50%);
+}
+
+.form-group {
+    width: fit-content;
+    height: fit-content;
+    box-shadow: 0 0 15px -5px black;
+    border-radius: 10px;
+    padding: 1.5rem;
+    background-color: navy;
+}
+
+.form-group h1 {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.form-group table tbody {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group table tbody tr {
+    margin-bottom: 1.5rem;
+    display: flex;
+    width: 30vw;
+    justify-content: space-evenly;
+}
+
+.form-group .buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+    margin-top: 1.5rem;
+    margin-left: 50%;
+    margin-right: 50%;
+    transform: translate(-50%);
+}
+
+.form-group #sign-in-btn, #back-btn {
+    border-radius: 5px;
+    color: gold;
+    background-color: black;
+}

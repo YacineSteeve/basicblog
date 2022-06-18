@@ -1,0 +1,17 @@
+{% extends '../auth.html' %}
+
+{% block authentication %}
+    <div class="form-group">
+        <h1>Login</h1>
+        <form action="" method="post">
+            {% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <div class="buttons">
+                <a href="{{ next }}"><input type="button" value="Cancel" id="back-btn"/></a>
+                <input type="submit" value="Sign in" id="sign-in-btn"/>
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,51 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <!-- Metadata -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap minifying stuffs -->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+
+    <!-- Fonts -->
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Archivo&display=swap">
+
+    {% load static %}
+
+    <!-- Icons -->
+    <link rel="stylesheet"
+          type="text/css"
+          href="{% static "fontawesome/css/all.min.css" %}"/>
+
+    <!-- Css -->
+    <link type="text/css"
+          rel="stylesheet"
+          href="{% static 'css/auth-style.css' %}"/>
+
+    <!-- The website title -->
+    <title>WeBlog</title>
+</head>
+
+<body>
+    <main>
+        {% block authentication %}
+
+        {% endblock %}
+    </main>
+</body>
+
+</html>
