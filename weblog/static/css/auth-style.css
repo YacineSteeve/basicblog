@@ -1,7 +1,6 @@
 body {
     margin: 0;
     padding: 0;
-    color: gold;
     font-family: 'Archivo', sans-serif;
     font-size: 1rem;
     overflow: hidden;
@@ -9,6 +8,7 @@ body {
 
 main {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 70vw;
@@ -18,7 +18,8 @@ main {
     transform: translate(-50%);
 }
 
-.form-group {
+.login-form {
+    color: gold;
     width: fit-content;
     height: fit-content;
     box-shadow: 0 0 15px -5px black;
@@ -27,24 +28,24 @@ main {
     background-color: navy;
 }
 
-.form-group h1 {
+.login-form h1 {
     text-align: center;
     margin-bottom: 3rem;
 }
 
-.form-group table tbody {
+.login-form table tbody {
     display: flex;
     flex-direction: column;
 }
 
-.form-group table tbody tr {
+.login-form table tbody tr {
     margin-bottom: 1.5rem;
     display: flex;
     width: 30vw;
     justify-content: space-evenly;
 }
 
-.form-group .buttons {
+.login-form .buttons {
     display: flex;
     justify-content: space-between;
     width: 80%;
@@ -54,8 +55,53 @@ main {
     transform: translate(-50%);
 }
 
-.form-group #sign-in-btn, #back-btn {
+.login-form #sign-in-btn, #back-btn {
     border-radius: 5px;
     color: gold;
     background-color: black;
+}
+
+.not-yet-registered {
+    margin-top: 1rem;
+}
+
+.sign-up-group {
+    width: fit-content;
+    height: fit-content;
+    box-shadow: 0 0 15px -5px black;
+    border-radius: 10px;
+    padding-block: 1.5rem;
+    padding-inline: 3rem;
+}
+
+.sign-up-group h1 {
+    text-align: center;
+}
+
+.sign-up-group p {
+    text-align: center;
+}
+
+.sign-up-group label {
+    font-weight: bold;
+}
+
+#join-question {
+    font-weight: normal;
+}
+
+.sign-up-group .helptext {
+    font-size: 0.7rem;
+    color: grey;
+}
+
+.user-form div {
+    display: flex;
+    justify-content: space-between;
+    width: 33vw;
+}
+
+.blogger-form {
+    visibility: hidden;
+    height: 0;
 }

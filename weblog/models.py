@@ -73,13 +73,6 @@ class BlogPost(models.Model):
 class Blogger(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     avatar = models.ImageField(upload_to=upload_to_user_directory, blank=True)
-    GENDERS = [
-        (None, ''),
-        ('M', 'Male'),
-        ('F', 'Female'),
-        ('O', 'Other'),
-    ]
-    gender = models.CharField(max_length=4, choices=GENDERS, blank=True)
     date_of_birth = models.DateField()
 
     class Meta:

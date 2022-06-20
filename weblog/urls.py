@@ -6,6 +6,7 @@ from . import views
 urlpatterns = [
     path('', views.index, name='index'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('accounts/create/', views.account_create, name='create-account'),
     path('blogs/', views.BlogPostListView.as_view(), name='blog-posts-list'),
     path('blogs/<int:pk>/', views.BlogPostDetailView.as_view(), name='blog-post-detail'),
     path('blogs/<int:pk>/<int:user_id>/comments/create/', views.CommentCreate.as_view(), name='comment-create'),

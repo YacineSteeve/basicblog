@@ -42,10 +42,38 @@
 
 <body>
     <main>
-        {% block authentication %}
+        {% block main %}
 
         {% endblock %}
     </main>
 </body>
+
+<script type="text/javascript">
+    const input = document.querySelector('input');
+    const checkBox = document.querySelector('#become-blogger');
+    const bloggerForm = document.querySelector('.blogger-form');
+    const avatarFile = document.querySelector('#id_avatar');
+    const genderSelect = document.querySelector('#id_gender');
+    const birthDate = document.querySelector('#id_date_of-birth');
+    input.focus();
+
+    function showForm() {
+        bloggerForm.style.height = 'auto';
+        bloggerForm.style.visibility = 'visible';
+    }
+
+    function hideForm() {
+        bloggerForm.style.height = '0';
+        bloggerForm.style.visibility = 'hidden';
+        avatarFile.value = '';
+        genderSelect.value = '';
+    }
+
+    checkBox.addEventListener('click', () => {
+        checkBox.checked
+            ? showForm()
+            : hideForm();
+    })
+</script>
 
 </html>

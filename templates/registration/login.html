@@ -1,7 +1,7 @@
-{% extends '../auth.html' %}
+{% extends 'auth.html' %}
 
-{% block authentication %}
-    <div class="form-group">
+{% block main %}
+    <div class="login-form">
         <h1>Login</h1>
         <form action="" method="post">
             {% csrf_token %}
@@ -14,4 +14,5 @@
             </div>
         </form>
     </div>
+    <p class="not-yet-registered">Not yet registered? <a href="{% url 'create-account' %}?next={% url 'login' %}">Create an account</a> !</p>
 {% endblock %}

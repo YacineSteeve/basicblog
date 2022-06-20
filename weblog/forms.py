@@ -1,5 +1,5 @@
 from django.forms.models import ModelForm
-from .models import Comment, Answer
+from .models import Blogger, Comment, Answer
 
 
 class CommentForm(ModelForm):
@@ -12,3 +12,9 @@ class AnswerForm(ModelForm):
     class Meta:
         model = Answer
         fields = ['comment_answered', 'author', 'content', 'answer_date']
+
+
+class BloggerForm(ModelForm):
+    class Meta:
+        model = Blogger
+        exclude = ['user']

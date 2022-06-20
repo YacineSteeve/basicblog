@@ -1,10 +1,12 @@
+from django.template.context_processors import csrf
 from django.views import generic, View
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
 from .models import BlogPost, Blogger, Comment, Answer, Category
-from .forms import CommentForm, AnswerForm
+from .forms import CommentForm, AnswerForm, BloggerForm
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -49,10 +51,6 @@ class BloggerDetailView(generic.DetailView):
     model = Blogger
 
 # ------------ Create Views -------------- #
-
-
-class BloggerCreate(generic.CreateView):
-    model = Blogger
 
 
 class BlogPostCreate(generic.CreateView):
@@ -121,3 +119,31 @@ class AnswerDelete(generic.DeleteView):
 
 class CategoryDelete(generic.DeleteView):
     model = Category
+
+# --------- Account ---------- #
+
+
+def account_create(request):
+    if request.method == 'POST':
+        user_form = UserCreationForm(request.POST)
+        blogger_form = BloggerForm(request.POST)
+
+        if user_form.is_valid() and blogger_form.is_valid():
+            new_user = user_form.save()
+            new_blogger = blogger_form.save(commit=False)
+            new_blogger.user = new_user
+            new_blogger.save()
+            return HttpResponseRedirect(reverse(request.next))
+
+    else:
+        user_form = UserCreationForm()
+        blogger_form = BloggerForm()
+
+    context = {
+        'user_form': user_form,
+        'blogger_form': blogger_form
+    }
+
+    context.update(csrf(request))
+
+    return render(request, 'sign-up_form.html', context)

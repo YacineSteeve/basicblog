@@ -1,0 +1,54 @@
+{% extends 'auth.html' %}
+
+{% block main %}
+    {% now "y-m-d" as today %}
+    <div class="sign-up-group">
+        <h1>WeBlog</h1>
+        <p>Create an account or <a href="{% url 'login' %}">log in</a></p>
+
+        <form method="post" action="">
+            {% csrf_token %}
+            <section class="user-form">
+                <div>
+                    <label for="id_username">Username:</label>
+                    <input type="text" name="username" maxlength="150" autocapitalize="none" autocomplete="username"
+                           autofocus
+                           required id="id_username"/>
+                </div>
+                <br/>
+                {% comment %}<span class="helptext text-muted">Letters, digits and @/./+/-/_ only.</span>{% endcomment %}
+                <div>
+                    <label for="id_password1">Create a password:</label>
+                    <input type="password" name="password1" autocomplete="new-password" required id="id_password1"/>
+                </div>
+                <ul class="helptext">
+                    <li>Your password can’t be too similar to your other personal information.</li>
+                    <li>Your password must contain at least 8 characters.</li>
+                    <li>Your password can’t be entirely numeric.</li>
+                </ul>
+                <div>
+                    <label for="id_password2">Password confirmation:</label>
+                    <input type="password" name="password2" autocomplete="new-password" required id="id_password2"/>
+                </div>
+            </section>
+            <br/>
+            <div>
+                <input type="checkbox" name="become-blogger" id="become-blogger"/>
+                <label for="become-blogger" id="join-question">Join our bloggers community?</label>
+            </div>
+            <br/>
+            <section class="blogger-form">
+                <div>
+                    <label for="id_avatar">Avatar:</label>
+                    <input type="file" name="avatar" accept="image/*" id="id_avatar"/>
+                </div>
+                <div>
+                    <label for="id_date_of_birth">Date of birth:</label>
+                    <input type="date" name="date_of_birth" id="id_date_of_birth" max="20{{ today }}"/>
+                </div>
+            </section>
+            <br/>
+            <input type="submit" value="Sign up"/>
+        </form>
+    </div>
+{% endblock %}
