@@ -4,9 +4,8 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
 from .models import BlogPost, Blogger, Comment, Answer, Category
-from .forms import CommentForm, AnswerForm, BloggerForm
+from .forms import CommentForm, AnswerForm, BloggerForm, UserCreateForm
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -14,6 +13,41 @@ def index(request: HttpRequest) -> HttpResponse:
         'key': 'value',
     }
     return render(request, 'index.html', context=context)
+
+
+# --------- Registration View ---------- #
+
+
+def account_create(request):
+    if request.method == 'POST':
+        user_form = UserCreateForm(request.POST)
+        blogger_form = BloggerForm(request.POST)
+
+        if user_form.is_valid() and blogger_form.is_valid():
+            new_user = user_form.save()
+            if request.POST.get('blogger_creation_accepted') == 'on':
+                new_blogger = blogger_form.save(commit=False)
+                new_blogger.user = new_user
+
+                if request.FILES:
+                    new_blogger.avatar = request.FILES.get('avatar')
+
+                new_blogger.save()
+
+            return HttpResponseRedirect(reverse('login'))
+
+    else:
+        user_form = UserCreateForm()
+        blogger_form = BloggerForm()
+
+    context = {
+        'user_form': user_form,
+        'blogger_form': blogger_form
+    }
+
+    context.update(csrf(request))
+
+    return render(request, 'sign-up_form.html', context)
 
 
 # ------------ List Views -------------- #
@@ -33,6 +67,7 @@ class BloggerListView(generic.ListView):
     model = Blogger
     paginate_by = 20
 
+
 # ------------ Detail Views -------------- #
 
 
@@ -49,6 +84,7 @@ class BlogPostDetailView(generic.DetailView):
 
 class BloggerDetailView(generic.DetailView):
     model = Blogger
+
 
 # ------------ Create Views -------------- #
 
@@ -84,6 +120,7 @@ class AnswerCreate(View):
 class CategoryCreate(generic.CreateView):
     model = Category
 
+
 # ------------ Update Views -------------- #
 
 
@@ -97,6 +134,7 @@ class BlogPostUpdate(generic.UpdateView):
 
 class CategoryUpdate(generic.UpdateView):
     model = Category
+
 
 # ------------ Delete Views -------------- #
 
@@ -119,31 +157,3 @@ class AnswerDelete(generic.DeleteView):
 
 class CategoryDelete(generic.DeleteView):
     model = Category
-
-# --------- Account ---------- #
-
-
-def account_create(request):
-    if request.method == 'POST':
-        user_form = UserCreationForm(request.POST)
-        blogger_form = BloggerForm(request.POST)
-
-        if user_form.is_valid() and blogger_form.is_valid():
-            new_user = user_form.save()
-            new_blogger = blogger_form.save(commit=False)
-            new_blogger.user = new_user
-            new_blogger.save()
-            return HttpResponseRedirect(reverse(request.next))
-
-    else:
-        user_form = UserCreationForm()
-        blogger_form = BloggerForm()
-
-    context = {
-        'user_form': user_form,
-        'blogger_form': blogger_form
-    }
-
-    context.update(csrf(request))
-
-    return render(request, 'sign-up_form.html', context)

@@ -3,7 +3,15 @@ body {
     padding: 0;
     font-family: 'Archivo', sans-serif;
     font-size: 1rem;
-    overflow: hidden;
+    overflow-x: hidden;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 3rem;
+    font-family: 'Kaushan Script', cursive;
+    height: fit-content;
 }
 
 main {
@@ -29,8 +37,6 @@ main {
 }
 
 .login-form h1 {
-    text-align: center;
-    margin-bottom: 3rem;
 }
 
 .login-form table tbody {
@@ -55,14 +61,22 @@ main {
     transform: translate(-50%);
 }
 
-.login-form #sign-in-btn, #back-btn {
+.auth-btn {
     border-radius: 5px;
-    color: gold;
-    background-color: black;
+    font-weight: bold;
+    background-color: rgba(255, 215, 0, 0.9);
+}
+
+.auth-btn:hover {
+    background-color: rgba(255, 215, 0, 1);
 }
 
 .not-yet-registered {
     margin-top: 1rem;
+}
+
+.create-or-login {
+    margin-top: -1rem;
 }
 
 .sign-up-group {
@@ -72,6 +86,8 @@ main {
     border-radius: 10px;
     padding-block: 1.5rem;
     padding-inline: 3rem;
+    background-color: navy;
+    color: gold;
 }
 
 .sign-up-group h1 {
@@ -86,15 +102,13 @@ main {
     font-weight: bold;
 }
 
+.sign-up-group .helptext {
+    font-size: 0.7rem;
+}
+
 #join-question {
     font-weight: normal;
 }
-
-.sign-up-group .helptext {
-    font-size: 0.7rem;
-    color: grey;
-}
-
 .user-form div {
     display: flex;
     justify-content: space-between;
@@ -104,4 +118,23 @@ main {
 .blogger-form {
     visibility: hidden;
     height: 0;
+}
+
+.blogger-form .avatar {
+    display: flex;
+    justify-content: space-between;
+    width: 35vw;
+}
+
+.blogger-form .birth-date {
+    display: flex;
+    justify-content: space-between;
+    width: 19.2vw;
+}
+
+.sign-up-group #sign-up-btn {
+    width: 10vw;
+    margin-left: 50%;
+    margin-right: 50%;
+    transform: translate(-50%);
 }

@@ -3,10 +3,9 @@
 {% block main %}
     {% now "y-m-d" as today %}
     <div class="sign-up-group">
-        <h1>WeBlog</h1>
-        <p>Create an account or <a href="{% url 'login' %}">log in</a></p>
-
-        <form method="post" action="">
+        <h1 class="title">WeBlog</h1>
+        <p class="create-or-login">Create an account or <a href="{% url 'login' %}">log in</a></p>
+        <form method="post" action="" enctype="multipart/form-data">
             {% csrf_token %}
             <section class="user-form">
                 <div>
@@ -16,7 +15,11 @@
                            required id="id_username"/>
                 </div>
                 <br/>
-                {% comment %}<span class="helptext text-muted">Letters, digits and @/./+/-/_ only.</span>{% endcomment %}
+                <div>
+                    <label for="id_email">Email:</label>
+                    <input type="email" name="email" required id="id_email">
+                </div>
+                <br/>
                 <div>
                     <label for="id_password1">Create a password:</label>
                     <input type="password" name="password1" autocomplete="new-password" required id="id_password1"/>
@@ -33,22 +36,53 @@
             </section>
             <br/>
             <div>
-                <input type="checkbox" name="become-blogger" id="become-blogger"/>
-                <label for="become-blogger" id="join-question">Join our bloggers community?</label>
+                <input type="checkbox" name="blogger_creation_accepted" id="id_blogger_creation_accepted">
+                <label for="id_blogger_creation_accepted" id="join-question">Join our bloggers community?</label>
             </div>
             <br/>
             <section class="blogger-form">
-                <div>
+                <div class="avatar">
                     <label for="id_avatar">Avatar:</label>
                     <input type="file" name="avatar" accept="image/*" id="id_avatar"/>
                 </div>
-                <div>
+                <br/>
+                <div class="birth-date">
                     <label for="id_date_of_birth">Date of birth:</label>
                     <input type="date" name="date_of_birth" id="id_date_of_birth" max="20{{ today }}"/>
                 </div>
             </section>
             <br/>
-            <input type="submit" value="Sign up"/>
+            <section class="form-errors">
+                {% if user_form.errors %}
+                    {% for field in user_form %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in user_form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% if blogger_form.errors %}
+                    {% for field in blogger_form %}
+                        {% for error in field.errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% for error in blogger_form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </section>
+            <input type="submit" value="Sign up" id="sign-up-btn" class="auth-btn"/>
         </form>
     </div>
 {% endblock %}

@@ -50,10 +50,9 @@
 
 <script type="text/javascript">
     const input = document.querySelector('input');
-    const checkBox = document.querySelector('#become-blogger');
+    const checkBox = document.querySelector('#id_blogger_creation_accepted');
     const bloggerForm = document.querySelector('.blogger-form');
     const avatarFile = document.querySelector('#id_avatar');
-    const genderSelect = document.querySelector('#id_gender');
     const birthDate = document.querySelector('#id_date_of-birth');
     input.focus();
 
@@ -66,7 +65,6 @@
         bloggerForm.style.height = '0';
         bloggerForm.style.visibility = 'hidden';
         avatarFile.value = '';
-        genderSelect.value = '';
     }
 
     checkBox.addEventListener('click', () => {
