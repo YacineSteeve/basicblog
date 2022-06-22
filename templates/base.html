@@ -39,7 +39,7 @@
 
     <!-- JavaScript -->
     <script type="text/javascript"
-            src="{% static 'js/comment-section-toggle.js' %}"
+            src="{% static 'js/base-script.js' %}"
             defer>
     </script>
 
@@ -71,9 +71,9 @@
                          style="background-image: url('{% if user.blogger.avatar %}/weblog{{ user.blogger.avatar.url }}{% else %}{{ STATIC_PREFIX }}images/user_placeholder.png{% endif %}');">
                     </div>
                     <a href="{{ user.blogger.get_absolute_url }}" class="username">{{ user.username }}</a>
-                    <a href="{% url 'logout' %}?next={{ request.path }}" class="logout"><i class="fa fa-sign-out-alt">Logout</i></a>
+                    <a href="{% url 'logout' %}?next={{ request.path }}" class="logout"><i class="fa fa-sign-out-alt">Sign out</i></a>
                 {% else %}
-                    <a href="{% url 'login' %}?next={{ request.path }}" class="login">Login</a>
+                    <a href="{% url 'login' %}?next={{ request.path }}" class="login">Log in</a>
                 {% endif %}
             </div>
         </nav>

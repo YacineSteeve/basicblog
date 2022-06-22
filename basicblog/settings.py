@@ -106,6 +106,11 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Email
+
+EMAIL_USE_LOCALTIME = True
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# TODO: change to 'django.core.mail.backends.smtp.EmailBackend' before sending to production.
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/

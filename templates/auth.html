@@ -36,42 +36,23 @@
           rel="stylesheet"
           href="{% static 'css/auth-style.css' %}"/>
 
+    <!-- JavaScript -->
+    <script type="text/javascript"
+            src="{% static 'js/auth-script.js' %}"
+            defer>
+    </script>
+
+
     <!-- The website title -->
     <title>WeBlog</title>
 </head>
 
 <body>
-    <main>
+    <main class="horizontally-centered">
         {% block main %}
 
         {% endblock %}
     </main>
 </body>
-
-<script type="text/javascript">
-    const input = document.querySelector('input');
-    const checkBox = document.querySelector('#id_blogger_creation_accepted');
-    const bloggerForm = document.querySelector('.blogger-form');
-    const avatarFile = document.querySelector('#id_avatar');
-    const birthDate = document.querySelector('#id_date_of-birth');
-    input.focus();
-
-    function showForm() {
-        bloggerForm.style.height = 'auto';
-        bloggerForm.style.visibility = 'visible';
-    }
-
-    function hideForm() {
-        bloggerForm.style.height = '0';
-        bloggerForm.style.visibility = 'hidden';
-        avatarFile.value = '';
-    }
-
-    checkBox.addEventListener('click', () => {
-        checkBox.checked
-            ? showForm()
-            : hideForm();
-    })
-</script>
 
 </html>

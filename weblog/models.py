@@ -73,7 +73,7 @@ class BlogPost(models.Model):
 class Blogger(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True)
     avatar = models.ImageField(upload_to=upload_to_user_directory, blank=True)
-    date_of_birth = models.DateField(null=True)
+    date_of_birth = models.DateField(blank=True, null=True)
 
     class Meta:
         ordering = ['user']

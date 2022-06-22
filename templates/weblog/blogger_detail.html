@@ -3,7 +3,7 @@
 {% block main %}
     <div class="blogger-header">
         <div class="profile-picture"
-             style="background-image: url('/weblog{{ blogger.avatar.url }}');">
+             style="background-image: url('{% if blogger.avatar %}/weblog{{ blogger.avatar.url }}{% else %}{{ STATIC_PREFIX }}images/user_placeholder.png{% endif %}');">
         </div>
         <div class="blogger-infos">
             {% if blogger.user.first_name and blogger.user.last_name %}
@@ -35,7 +35,14 @@
             </li>
             <br/>
         {% empty %}
-            <li class="text-muted">This blogger has no post for the moment...</li>
+            <li class="text-muted">
+                {% if user.blogger and blogger == user.blogger %}
+                    You have
+                {% else %}
+                    This blogger has
+                {% endif %}
+                no post for the moment...
+            </li>
         {% endfor %}
     </ul>
 {% endblock %}

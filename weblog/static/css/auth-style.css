@@ -21,22 +21,44 @@ main {
     align-items: center;
     width: 70vw;
     height: 100vh;
-    margin-left: 50%;
-    margin-right: 50%;
-    transform: translate(-50%);
+    position: relative;
 }
 
-.login-form {
+.centered-div {
     color: gold;
     width: fit-content;
     height: fit-content;
     box-shadow: 0 0 15px -5px black;
     border-radius: 10px;
-    padding: 1.5rem;
+    padding-block: 1.5rem;
+    padding-inline: 3rem;
     background-color: navy;
 }
 
-.login-form h1 {
+.centered-div > a:first-child {
+    text-decoration: none;
+    color: gold;
+}
+
+.horizontally-centered {
+    margin-left: 50%;
+    margin-right: 50%;
+    transform: translate(-50%);
+}
+
+.helptext {
+    font-size: 0.7rem;
+    margin-top: 0.5rem;
+}
+
+.auth-btn {
+    border-radius: 5px;
+    font-weight: bold;
+    background-color: rgba(255, 215, 0, 0.9);
+}
+
+.auth-btn:hover {
+    background-color: rgba(255, 215, 0, 1);
 }
 
 .login-form table tbody {
@@ -56,19 +78,6 @@ main {
     justify-content: space-between;
     width: 80%;
     margin-top: 1.5rem;
-    margin-left: 50%;
-    margin-right: 50%;
-    transform: translate(-50%);
-}
-
-.auth-btn {
-    border-radius: 5px;
-    font-weight: bold;
-    background-color: rgba(255, 215, 0, 0.9);
-}
-
-.auth-btn:hover {
-    background-color: rgba(255, 215, 0, 1);
 }
 
 .not-yet-registered {
@@ -79,31 +88,18 @@ main {
     margin-top: -1rem;
 }
 
-.sign-up-group {
-    width: fit-content;
-    height: fit-content;
-    box-shadow: 0 0 15px -5px black;
-    border-radius: 10px;
-    padding-block: 1.5rem;
-    padding-inline: 3rem;
-    background-color: navy;
-    color: gold;
+.sign-up-forms {
+    position: absolute;
+    top: 5vh;
+    margin-bottom: 5vh;
 }
 
-.sign-up-group h1 {
+.sign-up-forms p {
     text-align: center;
 }
 
-.sign-up-group p {
-    text-align: center;
-}
-
-.sign-up-group label {
+.sign-up-forms label {
     font-weight: bold;
-}
-
-.sign-up-group .helptext {
-    font-size: 0.7rem;
 }
 
 #join-question {
@@ -132,9 +128,44 @@ main {
     width: 19.2vw;
 }
 
-.sign-up-group #sign-up-btn {
+.sign-up-forms #sign-up-btn {
     width: 10vw;
-    margin-left: 50%;
-    margin-right: 50%;
-    transform: translate(-50%);
+}
+
+.password-reset-form > p {
+    text-align: center;
+}
+
+.password-reset-form form p {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.password-reset-form form p input {
+    width: 80%;
+}
+
+#ask-reset-btn {
+    width: fit-content;
+    padding-inline: 2vw;
+    margin-top: 2rem;
+}
+
+.go-back-login {
+    margin-top: 1rem;
+}
+
+.confirm-reset-form div {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+}
+
+.confirm-reset-form div input {
+    max-height: 40px;
+}
+
+.confirm-reset-form div label {
+    font-weight: bold;
 }

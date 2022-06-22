@@ -2,8 +2,8 @@
 
 {% block main %}
     {% now "y-m-d" as today %}
-    <div class="sign-up-group">
-        <h1 class="title">WeBlog</h1>
+    <div class="sign-up-forms centered-div">
+        <a href="{% url 'index' %}"><h1 class="title">WeBlog</h1></a>
         <p class="create-or-login">Create an account or <a href="{% url 'login' %}">log in</a></p>
         <form method="post" action="" enctype="multipart/form-data">
             {% csrf_token %}
@@ -25,7 +25,6 @@
                     <input type="password" name="password1" autocomplete="new-password" required id="id_password1"/>
                 </div>
                 <ul class="helptext">
-                    <li>Your password can’t be too similar to your other personal information.</li>
                     <li>Your password must contain at least 8 characters.</li>
                     <li>Your password can’t be entirely numeric.</li>
                 </ul>
@@ -56,14 +55,14 @@
                 {% if user_form.errors %}
                     {% for field in user_form %}
                         {% for error in field.errors %}
-                            <div class="alert alert-danger">
-                                <strong>{{ error|escape }}</strong>
+                            <div class="alert alert-danger u-field-error">
+                                <span>{{ error|escape }}</span>
                             </div>
                         {% endfor %}
                     {% endfor %}
                     {% for error in user_form.non_field_errors %}
                         <div class="alert alert-danger">
-                            <strong>{{ error|escape }}</strong>
+                            <span>{{ error|escape }}</span>
                         </div>
                     {% endfor %}
                 {% endif %}
@@ -71,18 +70,18 @@
                     {% for field in blogger_form %}
                         {% for error in field.errors %}
                             <div class="alert alert-danger">
-                                <strong>{{ error|escape }}</strong>
+                                <span>{{ error|escape }}</span>
                             </div>
                         {% endfor %}
                     {% endfor %}
                     {% for error in blogger_form.non_field_errors %}
                         <div class="alert alert-danger">
-                            <strong>{{ error|escape }}</strong>
+                            <span>{{ error|escape }}</span>
                         </div>
                     {% endfor %}
                 {% endif %}
             </section>
-            <input type="submit" value="Sign up" id="sign-up-btn" class="auth-btn"/>
+            <input type="submit" value="Sign up" id="sign-up-btn" class="auth-btn horizontally-centered"/>
         </form>
     </div>
 {% endblock %}

@@ -1,14 +1,14 @@
 {% extends 'auth.html' %}
 
 {% block main %}
-    <div class="login-form">
-        <h1 class="title">WeBlog</h1>
+    <div class="login-form centered-div">
+        <a href="{% url 'index' %}"><h1 class="title">WeBlog</h1></a>
         <form action="" method="post">
             {% csrf_token %}
             <table>
                 {{ form.as_table }}
             </table>
-            <div class="buttons">
+            <div class="buttons horizontally-centered">
                 <a href="{% if next %}{{ next }}{% else %}{% url 'index' %}{% endif %}">
                     <input type="button" value="Cancel" id="back-btn" class="auth-btn"/>
                 </a>
@@ -17,4 +17,6 @@
         </form>
     </div>
     <p class="not-yet-registered">Not yet registered? <a href="{% url 'create-account' %}">Create an account</a> !</p>
+    <p>or</p>
+    <p class="change-password">Password forgotten? Change it <a href="{% url 'password_reset' %}">here</a> !</p>
 {% endblock %}

@@ -13,19 +13,21 @@
                     <span class="text-muted">
                         ({{ blogger.blogpost_set.all|length }} post{{ blogger.blogpost_set.all|pluralize }})
                     </span>
-                    <p class="blogger-latest-post">
-                        Latest post:
-                        <a href="{{ blogger.blogpost_set.latest.get_absolute_url }}">
-                            <i>
-                                <strong>{{ blogger.blogpost_set.latest }} </strong>
-                                ({{ blogger.blogpost_set.latest.get_blog_post_age }})
-                            </i>
-                        </a>
-                        <br/>
-                        <span class="text-muted">
+                    {% if blogger.blogpost_set.all %}
+                        <p class="blogger-latest-post">
+                            Latest post:
+                            <a href="{{ blogger.blogpost_set.latest.get_absolute_url }}">
+                                <i>
+                                    <strong>{{ blogger.blogpost_set.latest }} </strong>
+                                    ({{ blogger.blogpost_set.latest.get_blog_post_age }})
+                                </i>
+                            </a>
+                            <br/>
+                            <span class="text-muted">
                             <i>"{{ blogger.blogpost_set.latest.content|slice:':75' }}..."</i>
                         </span>
-                    </p>
+                        </p>
+                    {% endif %}
                 </li>
                 <hr/>
             {% endif %}
