@@ -13,6 +13,13 @@
             {% endif %}
             <a href="{{ blogger.get_absolute_url }}" class="text-muted">@{{ blogger.user.username }}</a>
         </div>
+        {% if user.is_authenticated and user == blogger.user %}
+            <div class="blogger-edit">
+                <a href="{% url 'blogger-update' blogger.id %}">
+                    <button type="button" id="edit-button">Edit</button>
+                </a>
+            </div>
+        {% endif %}
     </div>
     <hr/>
     <h3>Posts</h3>

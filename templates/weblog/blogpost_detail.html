@@ -80,11 +80,10 @@
                             {% endfor %}
                         </ul>
                     {% endif %}
-                    <button type="button"
-                            class="comment-button {% if user.is_authenticated %}new-answer-button{% endif %} element-to-right">
-                        Answer
-                    </button>
                     {% if user.is_authenticated %}
+                        <button type="button" class="comment-button new-answer-button element-to-right">
+                            Answer
+                        </button>
                         <form action="{% url 'answer-create' blogpost.pk user.id comment.id %}"
                               method="post"
                               class="comment-form">
@@ -95,17 +94,20 @@
                                 <input type="submit" value="Post" class="comment-button post-comment"/>
                             </div>
                         </form>
+                    {% else %}
+                        <a href="{% url 'login' %}?next={{ request.path }}">
+                            <button class="comment-button element-to-right">Answer</button>
+                        </a>
                     {% endif %}
                 </li>
             {% empty %}
                 <li>&emsp;No comment</li>
             {% endfor %}
         </ul>
-        <button type="button"
-                class="comment-button {% if user.is_authenticated %}new-comment-button{% endif %} element-to-center">
-            Add a comment
-        </button>
         {% if user.is_authenticated %}
+            <button type="button" class="comment-button new-comment-button element-to-center">
+                Add a comment
+            </button>
             <form action="{% url 'comment-create' blogpost.pk user.id %}" method="post" class="comment-form">
                 {% csrf_token %}
                 {{ comment_form.content }}
@@ -114,6 +116,10 @@
                     <input type="submit" value="Post" class="comment-button post-comment"/>
                 </div>
             </form>
+        {% else %}
+            <a href="{% url 'login' %}?next={{ request.path }}">
+                <button class="comment-button element-to-center">Add a comment</button>
+            </a>
         {% endif %}
     </section>
 {% endblock main %}

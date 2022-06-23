@@ -13,4 +13,6 @@ urlpatterns = [
     path('blogs/<int:pk>/<int:user_id>/<int:comment_id>/answers/create/', views.AnswerCreate.as_view(), name='answer-create'),
     path('bloggers/', views.BloggerListView.as_view(), name='bloggers-list'),
     path('bloggers/<int:pk>/', views.BloggerDetailView.as_view(), name='blogger-detail'),
+    path('bloggers/<int:pk>/update/', views.BloggerUpdate.as_view(), name='blogger-update'),
+    path('bloggers/<int:pk>/delete/', views.BloggerDelete.as_view(), name='blogger-delete'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

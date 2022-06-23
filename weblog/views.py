@@ -126,14 +126,11 @@ class CategoryCreate(generic.CreateView):
 
 class BloggerUpdate(generic.UpdateView):
     model = Blogger
+    fields = '__all__'
 
 
 class BlogPostUpdate(generic.UpdateView):
     model = BlogPost
-
-
-class CategoryUpdate(generic.UpdateView):
-    model = Category
 
 
 # ------------ Delete Views -------------- #
@@ -145,15 +142,3 @@ class BloggerDelete(generic.DeleteView):
 
 class BlogPostDelete(generic.DeleteView):
     model = BlogPost
-
-
-class CommentDelete(generic.DeleteView):
-    model = Comment
-
-
-class AnswerDelete(generic.DeleteView):
-    model = Answer
-
-
-class CategoryDelete(generic.DeleteView):
-    model = Category

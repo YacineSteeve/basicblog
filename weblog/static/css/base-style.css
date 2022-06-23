@@ -171,20 +171,49 @@ nav {
 }
 
 main {
-    width: 60vw;
+    width: 55vw;
     padding: 0 3vw 0 3vw;
 }
 
 aside {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+aside .search-form form {
+    display: flex;
+    width: fit-content;
+}
+
+aside .search-form #search-btn {
+    width: 20%;
+    border-radius: 5px;
+}
+
+aside .search-form #search-input {
+    width: 80%;
+    height: 7vh;
+    padding: 0.7rem;
+    border-radius: 5px;
+    font-size: 0.9rem;
+}
+
+aside .latest-content {
     border: thin solid black;
     border-radius: 10px;
-    width: 15vw;
+    width: 100%;
     padding: 15px;
+    margin-top: 5vh;
     background-color: rgba(0, 0, 0, 0.2);
 }
 
-aside h3 {
+aside .latest-content h3 {
     text-align: center;
+}
+
+#search-input {
+    width: 15vw;
 }
 
 hr {
@@ -205,8 +234,8 @@ footer {
 .blogger-header {
     display: flex;
     height: 10vw;
-    width: fit-content;
-    justify-content: space-between;
+    width: 100%;
+    justify-content: flex-start;
 }
 
 .blogger-header .profile-picture {
@@ -215,10 +244,30 @@ footer {
     margin-right: 3vw;
 }
 
-.blogger-infos {
+.blogger-header .blogger-infos {
     height: 100%;
+    width: 30vw;
     line-height: 0.2rem;
     padding-top: 5vw;
+}
+
+.blogger-header .blogger-edit {
+    width: max-content;
+    height: 10vw;
+}
+
+.blogger-header .blogger-edit button {
+    width: 5vw;
+    margin-top: 40%;
+    margin-bottom: 60%;
+    font-size: 1rem;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.blogger-header .blogger-edit button:hover {
+    border: 2px solid black;
+    background-color: rgba(255, 255, 255, 1);
 }
 
 .blogger-posts, .blog-posts {
@@ -268,7 +317,7 @@ footer {
 
 .blog-post-comments > ul {
     list-style: none;
-    width: 50vw;
+    width: 45vw;
     padding-inline: 0;
     margin-top: 5vh;
     border-radius: 1rem;
@@ -319,12 +368,11 @@ footer {
     width: max-content;
     margin-top: 5vh;
     border-radius: 5px;
-    background-color: rgba(255, 255, 255, .3);
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 .comment-button:hover {
-    color: navy;
-    background-color: rgba(255, 255, 255, .6);
+    background-color: rgba(255, 255, 255, 0.6);
 }
 
 .element-to-right {

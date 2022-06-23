@@ -70,8 +70,12 @@
                     <div class="profile-picture"
                          style="background-image: url('{% if user.blogger.avatar %}/weblog{{ user.blogger.avatar.url }}{% else %}{{ STATIC_PREFIX }}images/user_placeholder.png{% endif %}');">
                     </div>
-                    <a href="{{ user.blogger.get_absolute_url }}" class="username">{{ user.username }}</a>
-                    <a href="{% url 'logout' %}?next={{ request.path }}" class="logout"><i class="fa fa-sign-out-alt">Sign out</i></a>
+                    <a href="{% if user.blogger %}{{ user.blogger.get_absolute_url }}{% endif %}" class="username">
+                        {{ user.username }}
+                    </a>
+                    <a href="{% url 'logout' %}?next={{ request.path }}" class="logout">
+                        <i class="fa fa-sign-out-alt">Sign out</i>
+                    </a>
                 {% else %}
                     <a href="{% url 'login' %}?next={{ request.path }}" class="login">Log in</a>
                 {% endif %}
@@ -87,18 +91,28 @@
                 {% endblock %}
             </main>
             <aside>
-                <h3 class="section-title">Latest content</h3>
-                <br/>
-                <p>
-                    But why smiling man her imagine married. Chiefly can man her out believe manners cottage
-                    colonel unknown.
-                    Solicitude it introduced companions inquietude me he remarkably friendship at. My almost or
-                    horses period.
-                    Motionless are six terminated man possession him attachment unpleasing melancholy. Sir smile
-                    arose one share.
-                    No abroad in easily relied an whence lovers temper by. Looked wisdom common he an be giving
-                    length mr.
-                </p>
+                <div class="search-form">
+                    <form method="get" action="">
+                        {% csrf_token %}
+                        <label for="search-input"></label>
+                        <input type="search" name="q" id="search-input" placeholder="Search on WeBlog..."/>
+                        <button type="button" id="search-btn"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+                <div class="latest-content">
+                    <h3 class="section-title">Latest content</h3>
+                    <br/>
+                    <p>
+                        But why smiling man her imagine married. Chiefly can man her out believe manners cottage
+                        colonel unknown.
+                        Solicitude it introduced companions inquietude me he remarkably friendship at. My almost or
+                        horses period.
+                        Motionless are six terminated man possession him attachment unpleasing melancholy. Sir smile
+                        arose one share.
+                        No abroad in easily relied an whence lovers temper by. Looked wisdom common he an be giving
+                        length mr.
+                    </p>
+                </div>
             </aside>
         </section>
         <footer>
