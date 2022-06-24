@@ -4,8 +4,9 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
-from .models import BlogPost, Blogger, Comment, Answer, Category
-from .forms import CommentForm, AnswerForm, BloggerForm, UserCreateForm
+from django.contrib.auth.forms import PasswordChangeForm
+from .models import BlogPost, Blogger, Comment, Answer
+from .forms import BloggerForm, CommentForm, AnswerForm, CategoryForm, UserCreateForm
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -18,19 +19,19 @@ def index(request: HttpRequest) -> HttpResponse:
 # --------- Registration View ---------- #
 
 
-def account_create(request):
+def account_create(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
         user_form = UserCreateForm(request.POST)
         blogger_form = BloggerForm(request.POST)
 
         if user_form.is_valid() and blogger_form.is_valid():
             new_user = user_form.save()
-            if request.POST.get('blogger_creation_accepted') == 'on':
+            if request.POST.get(key='blogger_creation_accepted') == 'on':
                 new_blogger = blogger_form.save(commit=False)
                 new_blogger.user = new_user
 
                 if request.FILES:
-                    new_blogger.avatar = request.FILES.get('avatar')
+                    new_blogger.avatar = request.FILES.get(key='avatar')
 
                 new_blogger.save()
 
@@ -48,6 +49,31 @@ def account_create(request):
     context.update(csrf(request))
 
     return render(request, 'sign-up_form.html', context)
+
+
+# ------ In progress... ----- #
+
+def account_update(request: HttpRequest, pk: int) -> HttpResponse:
+    user = User.objects.get(id=pk)
+
+    try:
+        current_avatar = Blogger.objects.get(user=user).avatar
+    except Blogger.DoesNotExist:
+        current_avatar = ''
+
+    context = {
+        'user': user,
+        'password_form': PasswordChangeForm(user=user),
+        'blogger_form': BloggerForm(),
+        'current_avatar': current_avatar,
+    }
+
+    return render(request, 'weblog/account_update.html', context)
+
+
+def account_delete(request: HttpRequest, pk: int) -> HttpResponse:
+
+    return render(request, 'index.html')
 
 
 # ------------ List Views -------------- #
@@ -78,7 +104,6 @@ class BlogPostDetailView(generic.DetailView):
         context = super().get_context_data(**kwargs)
         context['comment_form'] = CommentForm()
         context['answer_form'] = AnswerForm()
-
         return context
 
 
@@ -91,6 +116,16 @@ class BloggerDetailView(generic.DetailView):
 
 class BlogPostCreate(generic.CreateView):
     model = BlogPost
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category_form'] = CategoryForm()
+        return context
+
+
+class BloggerCreate(generic.CreateView):
+    model = Blogger
+    fields = '__all__'
 
 
 class CommentCreate(View):
@@ -117,16 +152,7 @@ class AnswerCreate(View):
         return HttpResponseRedirect(reverse('blog-post-detail', args=[self.kwargs['pk']]))
 
 
-class CategoryCreate(generic.CreateView):
-    model = Category
-
-
 # ------------ Update Views -------------- #
-
-
-class BloggerUpdate(generic.UpdateView):
-    model = Blogger
-    fields = '__all__'
 
 
 class BlogPostUpdate(generic.UpdateView):

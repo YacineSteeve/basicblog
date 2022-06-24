@@ -3,7 +3,13 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms.models import ModelForm
 from django.core.exceptions import ValidationError
-from .models import Blogger, Comment, Answer
+from .models import Blogger, Comment, Answer, Category
+
+
+class BloggerForm(ModelForm):
+    class Meta:
+        model = Blogger
+        exclude = ['user']
 
 
 class CommentForm(ModelForm):
@@ -18,10 +24,10 @@ class AnswerForm(ModelForm):
         fields = ['comment_answered', 'author', 'content', 'answer_date']
 
 
-class BloggerForm(ModelForm):
+class CategoryForm(ModelForm):
     class Meta:
-        model = Blogger
-        exclude = ['user']
+        model = Category
+        fields = ['name']
 
 
 class UserCreateForm(UserCreationForm):

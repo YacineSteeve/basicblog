@@ -15,7 +15,7 @@
         </div>
         {% if user.is_authenticated and user == blogger.user %}
             <div class="blogger-edit">
-                <a href="{% url 'blogger-update' blogger.id %}">
+                <a href="{% url 'account-update' blogger.user.id %}">
                     <button type="button" id="edit-button">Edit</button>
                 </a>
             </div>

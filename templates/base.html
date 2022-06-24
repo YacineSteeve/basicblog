@@ -70,10 +70,8 @@
                     <div class="profile-picture"
                          style="background-image: url('{% if user.blogger.avatar %}/weblog{{ user.blogger.avatar.url }}{% else %}{{ STATIC_PREFIX }}images/user_placeholder.png{% endif %}');">
                     </div>
-                    <a href="{% if user.blogger %}{{ user.blogger.get_absolute_url }}{% endif %}" class="username">
-                        {{ user.username }}
-                    </a>
-                    <a href="{% url 'logout' %}?next={{ request.path }}" class="logout">
+                    <a href="{% url 'account-update' user.id %}" class="username">{{ user.username }}</a>
+                    <a href="{% url 'logout' %}?next={% url 'index' %}" class="logout">
                         <i class="fa fa-sign-out-alt">Sign out</i>
                     </a>
                 {% else %}
@@ -92,11 +90,11 @@
             </main>
             <aside>
                 <div class="search-form">
-                    <form method="get" action="">
+                    <form method="post" action="">
                         {% csrf_token %}
                         <label for="search-input"></label>
                         <input type="search" name="q" id="search-input" placeholder="Search on WeBlog..."/>
-                        <button type="button" id="search-btn"><i class="fa fa-search"></i></button>
+                        <button type="submit" id="search-btn"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
                 <div class="latest-content">
