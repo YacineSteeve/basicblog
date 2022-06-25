@@ -26,12 +26,12 @@ def account_create(request: HttpRequest) -> HttpResponse:
 
         if user_form.is_valid() and blogger_form.is_valid():
             new_user = user_form.save()
-            if request.POST.get(key='blogger_creation_accepted') == 'on':
+            if request.POST.get('blogger_creation_accepted') == 'on':
                 new_blogger = blogger_form.save(commit=False)
                 new_blogger.user = new_user
 
                 if request.FILES:
-                    new_blogger.avatar = request.FILES.get(key='avatar')
+                    new_blogger.avatar = request.FILES.get('avatar')
 
                 new_blogger.save()
 
@@ -57,18 +57,56 @@ def account_update(request: HttpRequest, pk: int) -> HttpResponse:
     user = User.objects.get(id=pk)
 
     try:
-        current_avatar = Blogger.objects.get(user=user).avatar
+        blogger = Blogger.objects.get(user=user)
     except Blogger.DoesNotExist:
-        current_avatar = ''
+        is_blogger = False
+        current_date_of_birth = ''
+    else:
+        is_blogger = True
+        current_date_of_birth = blogger.date_of_birth
+
+    if request.method == 'POST':
+        form1 = BloggerForm(request.POST, request.FILES)
+        form2 = PasswordChangeForm(user=user, data=request.POST)
+
+        if is_blogger:
+            if form1.is_valid():
+                blogger = Blogger.objects.get(user=user)
+                new_avatar = form1.cleaned_data['avatar']
+                new_date_of_birth = form1.cleaned_data['date_of_birth']
+
+                if new_avatar:
+                    blogger.avatar = new_avatar
+                if new_date_of_birth and str(new_date_of_birth) != str(current_date_of_birth):
+                    blogger.date_of_birth = new_date_of_birth
+
+                blogger.save()
+
+        if form2.is_valid():
+            user.set_password(form2.cleaned_data['new_password2'])
+            user.save()
+            return HttpResponseRedirect(reverse('login'))
+
+        if 'avatar' in request.POST:
+            password_form = PasswordChangeForm(user=user)
+            blogger_form = form1
+        else:
+            password_form = form2
+            blogger_form = BloggerForm()
+    else:
+        password_form = PasswordChangeForm(user=user)
+        blogger_form = BloggerForm()
 
     context = {
         'user': user,
-        'password_form': PasswordChangeForm(user=user),
-        'blogger_form': BloggerForm(),
-        'current_avatar': current_avatar,
+        'password_form': password_form,
+        'blogger_form': blogger_form,
+        'current_date_of_birth': current_date_of_birth,
     }
 
-    return render(request, 'weblog/account_update.html', context)
+    context.update(csrf(request))
+
+    return render(request, 'account_update.html', context)
 
 
 def account_delete(request: HttpRequest, pk: int) -> HttpResponse:
@@ -82,11 +120,6 @@ def account_delete(request: HttpRequest, pk: int) -> HttpResponse:
 class BlogPostListView(generic.ListView):
     model = BlogPost
     paginate_by = 10
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['bloggers'] = [blogger.user for blogger in Blogger.objects.all()]
-        return context
 
 
 class BloggerListView(generic.ListView):

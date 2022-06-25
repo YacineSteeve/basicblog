@@ -2,11 +2,14 @@ html {
     scroll-behavior: smooth;
 }
 
-nav a, .top-section a {
+a {
     color: black;
     text-decoration: none;
 }
 
+.account-update-forms a {
+    color: #007bff;
+}
 nav a:hover {
     text-decoration: none;
 }
@@ -415,15 +418,66 @@ footer {
     background-color: red;
 }
 
-.account-update-forms h4 {
+.account-update-forms .button {
+    border-radius: 5px;
+}
+
+.account-update-forms p label {
+    font-weight: bold;
+}
+
+.account-update-forms p input {
+    margin-left: 2vw;
+}
+
+.account-update-forms .update-header {
+    display: flex;
+    width: 50%;
+    justify-content: space-between;
+}
+
+.account-update-forms .update-header .profile-picture {
+    height: 80px;
+    width: 80px;
+}
+
+.account-update-forms .update-section-title {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.account-update-forms .update-section-title hr {
+    width: 25%;
+    background-color: black;
+    height: 2px;
+}
+
+.account-update-forms .update-section-title span {
+    font-size: 1.5rem;
     width: max-content;
 }
 
-.danger-zone {
+.account-update-forms .blogger-form #id_date_of_birth {
+    margin-left: 2.5rem;
+}
+
+.account-update-forms .password-form form p {
+    display: flex;
+    width: 60%;
+    justify-content: space-between;
+}
+
+.account-update-forms .password-form form p input {
+    max-height: 40px;
+}
+
+.account-update-forms .danger-zone {
     width: 50%;
     margin-top: 25vh;
 }
 
-.danger-zone button {
+.account-update-forms .danger-zone button {
     width: max-content;
+    background-color: red;
 }

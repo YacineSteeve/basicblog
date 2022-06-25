@@ -1,11 +1,11 @@
 {% extends '../base.html' %}
 
 {% block main %}
-    {% if user in bloggers %}
+    {% if user.blogger %}
         <h2>My blog posts</h2>
         <br/>
         <ul class="blog-post-list">
-            {% for blog_post in user_blogposts_list %}
+            {% for blog_post in blogpost_list %}
                 {% if blog_post.author.user == user %}
                     <li>
                         <div class="blog-posts">
@@ -13,7 +13,7 @@
                                 <a href="{{ blog_post.get_absolute_url }}"><strong>{{ blog_post }}</strong></a>&nbsp;
                             </div>
                             <div>
-                                <p class="text-muted"><i>{{ blog_post.get_blog_post_age }}</i></p>
+                                <p class="text-muted"><i>{{ blog_post.post_date|timesince }} ago</i></p>
                             </div>
                         </div>
                         <hr/>
@@ -34,7 +34,7 @@
                             &nbsp; (by <a href="{{ blog_post.author.get_absolute_url }}" class="blog-post-author">{{ blog_post.author }}</a>)
                         </div>
                         <div>
-                            <p class="text-muted"><i>{{ blog_post.get_blog_post_age }}</i></p>
+                            <p class="text-muted"><i>{{ blog_post.post_date|timesince }} ago</i></p>
                         </div>
                     </div>
                     <hr/>

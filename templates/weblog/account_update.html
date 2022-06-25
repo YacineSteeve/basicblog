@@ -1,54 +1,68 @@
 {% extends 'base.html' %}
 
 {% block main %}
+    {% now "Y-m-d" as today %}
     <div class="account-update-forms">
         <h1>Update your profile</h1>
         <br/>
-        <p><strong>Username: {{ user.username }}</strong></p>
-        <p><strong>Date joined: {{ user.date_joined.date }}</strong></p>
+        <div class="update-header">
+            <div class="profile-picture" style="background-image: url('{% if user.blogger and user.blogger.avatar %}/weblog{{ user.blogger.avatar.url }}{% else %}{{ STATIC_PREFIX }}images/user_placeholder.png{% endif %}');">
+            </div>
+            <div>
+                <p><strong>Username: {{ user.username }}</strong></p>
+                <p><strong>Date joined: {{ user.date_joined.date }}</strong></p>
+            </div>
+        </div>
         {% if user.blogger %}
             <br/>
             <div class="blogger-form">
-                <h4 class="element-to-center">Your blogger infos</h4>
+                <div class="update-section-title">
+                    <hr/>
+                    <span>Your blogger infos</span>
+                    <hr/>
+                </div>
                 <br/>
-                <form method="post" action="">
+                <form method="post" action="" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ current_avatar }}
                     <p>
-                        <label for="id_avatar">Avatar:</label>
-                        {{ blogger_form.avatar }}
+                        <label for="id_avatar">Change avatar:</label>
+                        <input type="file" name="avatar" accept="image/*" id="id_avatar">
                     </p>
                     <p>
                         <label for="id_date_of_birth">Date of birth:</label>
-                        <input type="date" name="date_of_birth" id="id_date_of_birth">
+                        <input type="date" name="date_of_birth" id="id_date_of_birth" value="{{ current_date_of_birth|date:"Y-m-d" }}" max="{{ today }}">
                     </p>
-                    <input type="submit" value="Save changes" class="element-to-center"/>
-                </form>
-                <div class="blogger-form-errors">
-                    {% if blogger_form.errors %}
-                        {% for field in blogger_form %}
-                            {% for error in field.errors %}
+                    <div class="form-errors">
+                        {% if blogger_form.errors %}
+                            {% for field in blogger_form %}
+                                {% for error in field.errors %}
+                                    <div class="alert alert-danger">
+                                        <span>{{ error|escape }}</span>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                            {% for error in blogger_form.non_field_errors %}
                                 <div class="alert alert-danger">
                                     <span>{{ error|escape }}</span>
                                 </div>
                             {% endfor %}
-                        {% endfor %}
-                        {% for error in blogger_form.non_field_errors %}
-                            <div class="alert alert-danger">
-                                <span>{{ error|escape }}</span>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                </div>
+                        {% endif %}
+                    </div>
+                    <input type="submit" value="Save changes" class="button element-to-center"/>
+                </form>
             </div>
             <br/>
         {% else %}
             <br/>
-            <p><a href="{% url 'blogger-create' %}">Become a blogger</a> now for extra options !</p>
+            <p><a href="{% url 'blogger-create' %}">Become a blogger now</a> for extra options !</p>
         {% endif %}
         <br/>
         <div class="password-form">
-            <h4 class="element-to-center">Change your password</h4>
+            <div class="update-section-title">
+                <hr/>
+                <span>Change your password</span>
+                <hr/>
+            </div>
             <form method="post" action="">
                 {% csrf_token %}
                 <br/>
@@ -67,37 +81,40 @@
                     <input type="password" name="new_password2" autocomplete="new-password" required
                            id="id_new_password2">
                 </p>
-                <br/>
-                <input type="submit" value="Save password change" class="element-to-center"/>
-            </form>
-            <div class="password-form-errors">
-                {% if password_form.errors %}
-                    {% for field in password_form %}
-                        {% for error in field.errors %}
+                <div class="form-errors">
+                    {% if password_form.errors %}
+                        {% for field in password_form %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger">
+                                    <span>{{ error|escape }}</span>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in password_form.non_field_errors %}
                             <div class="alert alert-danger">
                                 <span>{{ error|escape }}</span>
                             </div>
                         {% endfor %}
-                    {% endfor %}
-                    {% for error in password_form.non_field_errors %}
-                        <div class="alert alert-danger">
-                            <span>{{ error|escape }}</span>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            </div>
+                    {% endif %}
+                </div>
+                <input type="submit" value="Save password change" class="button element-to-center"/>
+            </form>
         </div>
         <div class="danger-zone element-to-center">
-            <h4 class="element-to-center">Danger Zone</h4>
+            <div class="update-section-title">
+                <hr/>
+                <span>Danger zone</span>
+                <hr/>
+            </div>
             <br/>
             {% if user.blogger %}
                 <a href="{% comment %}{% url 'blogger-delete' user.blogger.id %}{% endcomment %}">
-                    <button type="button" class="element-to-center">Delete your blogger profile</button>
+                    <button type="button" class="button element-to-center">Delete your blogger profile</button>
                 </a>
                 <br/><br/>
             {% endif %}
             <a href="{% comment %}{% url 'account-delete' user.id %}{% endcomment %}">
-                <button type="button" class="element-to-center">Delete your account</button>
+                <button type="button" class="button element-to-center">Delete your account</button>
             </a>
         </div>
     </div>

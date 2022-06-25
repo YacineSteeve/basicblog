@@ -19,7 +19,7 @@
                             <a href="{{ blogger.blogpost_set.latest.get_absolute_url }}">
                                 <i>
                                     <strong>{{ blogger.blogpost_set.latest }} </strong>
-                                    ({{ blogger.blogpost_set.latest.get_blog_post_age }})
+                                    ({{ blogger.blogpost_set.latest.post_date|timesince }} ago)
                                 </i>
                             </a>
                             <br/>

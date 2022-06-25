@@ -2,36 +2,12 @@ from django.db import models
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User
-from collections import OrderedDict
 import os
-import datetime
 
 
 def upload_to_user_directory(instance, filename) -> str:
     new_filename = f'{instance.user.username}.{filename[-3:]}'
     return os.path.join(instance.user.username, 'avatar', new_filename)
-
-
-def convert_timedelta_to_dict(delta: datetime.timedelta) -> dict:
-    seconds = delta.seconds % 60
-    minutes = ((delta.seconds - seconds) // 60) % 60
-    hours = ((delta.seconds - minutes * 60) // 3600) % 86400
-    days = delta.days % 7
-    weeks = ((delta.days - days) // 7) % 4
-    months = ((delta.days - weeks * 7) // 30) % 12
-    years = (delta.days - months * 30) // 365
-
-    parsed_delta = OrderedDict({
-        'seconds': seconds,
-        'minutes': minutes,
-        'hours': hours,
-        'days': days,
-        'weeks': weeks,
-        'months': months,
-        'years': years
-    })
-
-    return parsed_delta
 
 
 class BlogPost(models.Model):
@@ -48,18 +24,12 @@ class BlogPost(models.Model):
     def get_categories(self) -> list:
         return [category for category in self.categories.all()]
 
-    def get_blog_post_age(self) -> str:
-        delta = convert_timedelta_to_dict(timezone.now() - self.post_date)
-        for time, value in list(delta.items())[:0:-1]:
-            if value != 0:
-                return f'{value} {time} ago' if value >= 2 else f'{value} {time[:-1]} ago'
-        return 'now'
-
     def get_comments_number(self) -> int:
-        comments = self.comment_set.all()
+        comments = [comment for comment in self.comment_set.all() if not comment.author.is_superuser]
         total = len(comments)
         for comment in comments:
-            total += len(comment.answer_set.all())
+            answers = [answer for answer in comment.answer_set.all() if not answer.author.is_superuser]
+            total += len(answers)
 
         return total
 
@@ -95,9 +65,6 @@ class Comment(models.Model):
         ordering = ['-comment_date', 'author']
         get_latest_by = '-comment_date'
 
-    def get_comment_age(self) -> datetime.timedelta:
-        return timezone.now() - self.comment_date
-
     def __str__(self):
         return f'{self.content[:75]}...'
 
@@ -111,9 +78,6 @@ class Answer(models.Model):
     class Meta:
         ordering = ['-answer_date', 'author']
         get_latest_by = '-answer_date'
-
-    def get_answer_age(self) -> datetime.timedelta:
-        return timezone.now() - self.answer_date
 
     def __str__(self):
         return f'{self.content[:75]}...'
