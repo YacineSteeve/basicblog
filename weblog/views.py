@@ -3,6 +3,7 @@ from django.views import generic, View
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
+from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from .models import BlogPost, Blogger, Comment, Answer
@@ -13,7 +14,7 @@ def index(request: HttpRequest) -> HttpResponse:
     context = {
         'key': 'value',
     }
-    return render(request, 'index.html', context=context)
+    return render(request, 'index.html', context)
 
 
 # --------- Registration View ---------- #
@@ -50,8 +51,6 @@ def account_create(request: HttpRequest) -> HttpResponse:
 
     return render(request, 'sign-up_form.html', context)
 
-
-# ------ In progress... ----- #
 
 def account_update(request: HttpRequest, pk: int) -> HttpResponse:
     user = User.objects.get(id=pk)
@@ -110,8 +109,13 @@ def account_update(request: HttpRequest, pk: int) -> HttpResponse:
 
 
 def account_delete(request: HttpRequest, pk: int) -> HttpResponse:
+    user = User.objects.get(id=pk)
+    if request.method == 'POST' and user == request.user:
+        logout(request)
+        user.delete()
+        return HttpResponseRedirect(reverse('index'))
 
-    return render(request, 'index.html')
+    return render(request, 'confirm_delete.html', {'object': user})
 
 
 # ------------ List Views -------------- #
@@ -160,6 +164,21 @@ class BloggerCreate(generic.CreateView):
     model = Blogger
     fields = '__all__'
 
+    def post(self, request, *args, **kwargs):
+        form = BloggerForm(request.POST, request.FILES)
+        user = User.objects.get(id=request.user.id)
+
+        if form.is_valid():
+            Blogger(
+                user=user,
+                avatar=form.cleaned_data['avatar'],
+                date_of_birth=form.cleaned_data['date_of_birth']
+            ).save()
+        else:
+            return render(request, 'blogger_form.html', {'form': form})
+
+        return HttpResponseRedirect(reverse('account-update', args=[request.user.id]))
+
 
 class CommentCreate(View):
     model = Comment
@@ -197,6 +216,8 @@ class BlogPostUpdate(generic.UpdateView):
 
 class BloggerDelete(generic.DeleteView):
     model = Blogger
+    template_name = 'confirm_delete.html'
+    success_url = '/weblog/'
 
 
 class BlogPostDelete(generic.DeleteView):

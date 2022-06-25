@@ -169,3 +169,26 @@ main {
 .confirm-reset-form div label {
     font-weight: bold;
 }
+
+.create-blogger label {
+    font-weight: bold;
+}
+
+.create-blogger div #blogger_username {
+    margin-left: 1.8rem;
+}
+
+.create-blogger div #id_avatar {
+    margin-left: 3.5rem;
+    margin-right: -2rem;
+}
+
+.create-blogger div #id_date_of_birth {
+    margin-left: 1rem;
+}
+
+.create-blogger .buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 80%;
+}

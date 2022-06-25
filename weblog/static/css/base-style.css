@@ -481,3 +481,8 @@ footer {
     width: max-content;
     background-color: red;
 }
+
+.confirm-delete-button {
+    background-color: red;
+    border-radius: 5px;
+}

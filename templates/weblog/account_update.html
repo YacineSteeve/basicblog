@@ -108,12 +108,12 @@
             </div>
             <br/>
             {% if user.blogger %}
-                <a href="{% comment %}{% url 'blogger-delete' user.blogger.id %}{% endcomment %}">
+                <a href="{% url 'blogger-delete' user.blogger.id %}">
                     <button type="button" class="button element-to-center">Delete your blogger profile</button>
                 </a>
                 <br/><br/>
             {% endif %}
-            <a href="{% comment %}{% url 'account-delete' user.id %}{% endcomment %}">
+            <a href="{% url 'account-delete' user.id %}">
                 <button type="button" class="button element-to-center">Delete your account</button>
             </a>
         </div>

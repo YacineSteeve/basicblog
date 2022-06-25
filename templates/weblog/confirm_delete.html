@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <div>
+        <h2>Are your sure you want to delete <strong>{{ object }}</strong> ?</h2>
+        <br/>
+        <h4>This operation is permanent!</h4>
+        <br/>
+        <form method="post" action="">
+            {% csrf_token %}
+            <input type="submit" value="Yes, I am sure" class="confirm-delete-button element-to-center">
+        </form>
+    </div>
+{% endblock %}
