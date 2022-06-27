@@ -2,12 +2,13 @@ from django.template.context_processors import csrf
 from django.views import generic, View
 from django.shortcuts import render
 from django.urls import reverse
+from django.core.mail import send_mail
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from .models import BlogPost, Blogger, Comment, Answer
-from .forms import BloggerForm, CommentForm, AnswerForm, CategoryForm, UserCreateForm
+from .forms import BloggerForm, CommentForm, AnswerForm, CategoryForm, UserCreateForm, ContactForm
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -116,6 +117,25 @@ def account_delete(request: HttpRequest, pk: int) -> HttpResponse:
         return HttpResponseRedirect(reverse('index'))
 
     return render(request, 'confirm_delete.html', {'object': user})
+
+
+def contact_view(request: HttpRequest) -> HttpResponse:
+    if request.method == 'POST':
+        contact_form = ContactForm(request.POST)
+        if contact_form.is_valid():
+            send_mail(
+                subject=contact_form.cleaned_data['subject'],
+                message=contact_form.cleaned_data['message'],
+                from_email=contact_form.cleaned_data['sender_email'],
+                recipient_list=[]
+            )
+    else:
+        if request.user.is_authenticated:
+            contact_form = ContactForm(sender_email=request.user.email)
+        else:
+            contact_form = ContactForm()
+
+    return render(request, 'base.html', {'contact_form': contact_form})
 
 
 # ------------ List Views -------------- #

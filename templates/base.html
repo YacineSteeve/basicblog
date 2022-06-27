@@ -118,6 +118,24 @@
             </aside>
         </section>
         <footer>
+            <div class="contact-form">
+                <form method="post" action="">
+                    {% csrf_token %}
+                    <input type="submit" value="Send message">
+                </form>
+            </div>
+            <div class="extra">
+                <div class="sitemap">
+                    <ul>
+                        <li>Home</li>
+                        <li>Blogs</li>
+                        <li>Bloggers</li>
+                        <li>Contact us</li>
+                    </ul>
+                </div>
+                <div class="social">
+                </div>
+            </div>
             <p class="copyright">&copy; YacineSteeve - 2022</p>
         </footer>
     </div>

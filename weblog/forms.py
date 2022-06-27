@@ -50,3 +50,12 @@ class UserCreateForm(UserCreationForm):
         if User.objects.filter(email=self.cleaned_data['email']).exists():
             raise ValidationError(self.fields['email'].error_messages['exists'])
         return self.cleaned_data['email']
+
+
+class ContactForm(forms.Form):
+    subject = forms.CharField(max_length=100)
+    sender_email = forms.EmailField()
+    message = forms.CharField(max_length=300, widget=forms.Textarea)
+
+    class Meta:
+        fields = '__all__'
