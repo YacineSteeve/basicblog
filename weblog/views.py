@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.template.context_processors import csrf
 from django.views import generic, View
 from django.shortcuts import render
@@ -10,6 +11,10 @@ from django.contrib.auth.forms import PasswordChangeForm
 from .models import BlogPost, Blogger, Comment, Answer
 from .forms import BloggerForm, CommentForm, AnswerForm, CategoryForm, UserCreateForm, ContactForm
 
+
+# TODO: Use the @sensitive_variables() and @sensitive_post_parameters() DecoratorClass
+#  for every functions to protect sensitive local variables.
+# See Django for the usage.
 
 def index(request: HttpRequest) -> HttpResponse:
     context = {
@@ -121,21 +126,20 @@ def account_delete(request: HttpRequest, pk: int) -> HttpResponse:
 
 def contact_view(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
-        contact_form = ContactForm(request.POST)
-        if contact_form.is_valid():
-            send_mail(
-                subject=contact_form.cleaned_data['subject'],
-                message=contact_form.cleaned_data['message'],
-                from_email=contact_form.cleaned_data['sender_email'],
-                recipient_list=[]
-            )
-    else:
-        if request.user.is_authenticated:
-            contact_form = ContactForm(sender_email=request.user.email)
-        else:
-            contact_form = ContactForm()
+        form = ContactForm(request.POST)
+        recipient_list = [person[1] for person in settings.ADMINS]
 
-    return render(request, 'base.html', {'contact_form': contact_form})
+        if form.is_valid():
+            send_mail(
+                subject=form.cleaned_data['subject'],
+                message=form.cleaned_data['message'],
+                from_email=form.cleaned_data['sender_email'],
+                recipient_list=recipient_list
+            )
+
+        return render(request, 'contact_done_or_not.html', {'form': form})
+
+    return HttpResponseRedirect(reverse('index'))
 
 
 # ------------ List Views -------------- #

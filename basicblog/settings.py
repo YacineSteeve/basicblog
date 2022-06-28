@@ -29,6 +29,14 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+ADMINS = [
+    ('Yacine BOUKARI', 'steeveboukari9@gmail.com'),
+]
+
+MANAGERS = [
+    ('Yacine BOUKARI', 'steeveboukari9@gmail.com'),
+]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -50,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.common.BrokenLinkEmailsMiddleware',
 ]
 
 ROOT_URLCONF = 'basicblog.urls'

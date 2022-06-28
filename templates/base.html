@@ -54,7 +54,7 @@
 <body>
     <div class="body element-to-center">
         <nav>
-            <a href="{% url 'index' %}" class="logo">WeBlog</a>
+            <a href="/admin/" class="logo">WeBlog</a>
             <div class="menu">
                 <div>
                     <a href="{% url 'index' %}">Home</a>
@@ -66,7 +66,7 @@
                     <a href="{% url 'bloggers-list' %}">Bloggers</a>
                 </div>
                 <div>
-                    <a href="/admin/">Contact us</a>
+                    <a href="#contact-form">Contact us</a>
                 </div>
             </div>
             <div class="user">
@@ -118,25 +118,57 @@
             </aside>
         </section>
         <footer>
-            <div class="contact-form">
-                <form method="post" action="">
+            <br id="contact-form"/><br/>
+            <div class="contact-form element-to-center">
+                <h3 class="element-to-center">Any question ?</h3>
+                <form method="post" action="{% url 'message-send' %}">
                     {% csrf_token %}
-                    <input type="submit" value="Send message">
+                    <div class="element-to-center">
+                        <label for="id_subject">Subject:</label>
+                        <input type="text" name="subject" maxlength="100" required id="id_subject">
+                    </div>
+                    <div class="element-to-center">
+                        <label for="id_sender_email">Your email:</label>
+                        <input type="email" name="sender_email" required id="id_sender_email">
+                    </div>
+                    <div class="element-to-center">
+                        <label for="id_message">Message:</label>
+                        <textarea name="message" cols="40" rows="8" maxlength="300" required id="id_message"></textarea>
+                    </div>
+                    <br/>
+                    <input type="submit" value="Send message" class="element-to-center">
                 </form>
             </div>
+            <br/>
+            <hr/>
+            <br/>
             <div class="extra">
                 <div class="sitemap">
+                    <h5><strong>Sitemap</strong></h5>
                     <ul>
-                        <li>Home</li>
-                        <li>Blogs</li>
-                        <li>Bloggers</li>
-                        <li>Contact us</li>
+                        <li><a href="{% url 'index' %}">Home</a></li>
+                        <li><a href="{% url 'blog-posts-list' %}">Blogs</a></li>
+                        <li><a href="{% url 'bloggers-list' %}">Bloggers</a></li>
+                        <li><a href="#contact-form">Contact us</a></li>
                     </ul>
                 </div>
-                <div class="social">
+                <div class="socials">
+                    <a href="https://twitter.com/YacineBoukari" target="_blank">
+                        <div class="icon-container twitter"><i class="fab fa-twitter"></i></div>
+                    </a>
+                    <a href="https://www.linkedin.com/in/yacine-boukari-585465226/" target="_blank">
+                        <div class="icon-container linkedin"><i class="fab fa-linkedin"></i></div>
+                    </a>
+                    <a href="https://www.instagram.com/yacine.b_612/" target="_blank">
+                        <div class="icon-container instagram"><i class="fab fa-instagram"></i></div>
+                    </a>
+                    <a href="https://github.com/YacineSteeve/basicblog" target="_blank">
+                        <div class="icon-container github"><i class="fab fa-github"></i></div>
+                    </a>
                 </div>
             </div>
-            <p class="copyright">&copy; YacineSteeve - 2022</p>
+            <br/>
+            <p class="copyright">&copy; 2022 - Yacine BOUKARI - All rights reserved</p>
         </footer>
     </div>
 </body>
