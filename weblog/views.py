@@ -2,14 +2,14 @@ from django.conf import settings
 from django.template.context_processors import csrf
 from django.views import generic, View
 from django.shortcuts import render
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.core.mail import send_mail
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from .models import BlogPost, Blogger, Comment, Answer
-from .forms import BloggerForm, CommentForm, AnswerForm, CategoryForm, UserCreateForm, ContactForm
+from .forms import BlogPostForm, BloggerForm, CommentForm, AnswerForm, CategoryForm, UserCreateForm, ContactForm
 
 
 # TODO: Use the @sensitive_variables() and @sensitive_post_parameters() DecoratorClass
@@ -177,9 +177,33 @@ class BloggerDetailView(generic.DetailView):
 
 class BlogPostCreate(generic.CreateView):
     model = BlogPost
+    fields = '__all__'
+
+    def post(self, request, *args, **kwargs):
+        form1 = CategoryForm(request.POST)
+        form2 = BlogPostForm(request.POST)
+
+        if form1.is_valid():
+            form1.save()
+            return render(request, 'blogpost_form.html', {
+                'blogpost_form': BlogPostForm(),
+                'category_form': form1,
+            })
+
+        if form2.is_valid():
+            form2.save()
+            return HttpResponseRedirect(reverse('blog-posts-list'))
+
+        context = {
+            'blogpost_form': form2,
+            'category_form': form1,
+        }
+
+        return render(request, 'blogpost_form.html', context)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['blogpost_form'] = BlogPostForm()
         context['category_form'] = CategoryForm()
         return context
 
@@ -228,13 +252,6 @@ class AnswerCreate(View):
         return HttpResponseRedirect(reverse('blog-post-detail', args=[self.kwargs['pk']]))
 
 
-# ------------ Update Views -------------- #
-
-
-class BlogPostUpdate(generic.UpdateView):
-    model = BlogPost
-
-
 # ------------ Delete Views -------------- #
 
 
@@ -246,3 +263,5 @@ class BloggerDelete(generic.DeleteView):
 
 class BlogPostDelete(generic.DeleteView):
     model = BlogPost
+    template_name = 'confirm_delete.html'
+    success_url = '/weblog/blogs/'

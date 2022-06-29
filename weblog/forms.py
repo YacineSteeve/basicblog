@@ -3,7 +3,14 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.forms.models import ModelForm
 from django.core.exceptions import ValidationError
-from .models import Blogger, Comment, Answer, Category
+from .models import BlogPost, Blogger, Comment, Answer, Category
+
+
+class BlogPostForm(ModelForm):
+    class Meta:
+        model = BlogPost
+        widgets = {'categories': forms.CheckboxSelectMultiple(),}
+        exclude = ['post_date']
 
 
 class BloggerForm(ModelForm):

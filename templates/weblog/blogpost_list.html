@@ -4,16 +4,26 @@
     {% if user.blogger %}
         <h2>My blog posts</h2>
         <br/>
-        <ul class="blog-post-list">
+        <a href="{% url 'blog-post-create' %}">
+            <button class="add-blog-post-button element-to-center">Add a blog post</button>
+        </a>
+        <ul class="blog-post-list blogger-blog-post-list">
             {% for blog_post in blogpost_list %}
                 {% if blog_post.author.user == user %}
                     <li>
                         <div class="blog-posts">
-                            <div>
+                            <div class="blog-post-name">
                                 <a href="{{ blog_post.get_absolute_url }}"><strong>{{ blog_post }}</strong></a>&nbsp;
                             </div>
-                            <div>
-                                <p class="text-muted"><i>{{ blog_post.post_date|timesince }} ago</i></p>
+                            <div class="blog-post-utils">
+                                <div>
+                                    <p class="text-muted"><i>{{ blog_post.post_date|timesince }} ago</i></p>
+                                </div>
+                                <div>
+                                    <a href="{% url 'blog-post-delete' blog_post.id %}">
+                                        <button>Delete</button>
+                                    </a>
+                                </div>
                             </div>
                         </div>
                         <hr/>
@@ -29,14 +39,16 @@
             {% if not blog_post.author.user.is_superuser %}
                 <li>
                     <div class="blog-posts">
-                        <div>
+                        <div class="blog-post-name">
                             <a href="{{ blog_post.get_absolute_url }}"><strong>{{ blog_post }}</strong></a>
+                            <br/>
                             &nbsp; (by <a href="{{ blog_post.author.get_absolute_url }}" class="blog-post-author">{{ blog_post.author }}</a>)
                         </div>
-                        <div>
+                        <div class="blog-post-utils">
                             <p class="text-muted"><i>{{ blog_post.post_date|timesince }} ago</i></p>
                         </div>
                     </div>
+                    <br/>
                     <hr/>
                 </li>
             {% endif %}

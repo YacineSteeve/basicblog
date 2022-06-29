@@ -16,7 +16,6 @@ urlpatterns = [
     path('blogs/', views.BlogPostListView.as_view(), name='blog-posts-list'),
     path('blogs/create/', views.BlogPostCreate.as_view(), name='blog-post-create'),
     path('blogs/<int:pk>/', views.BlogPostDetailView.as_view(), name='blog-post-detail'),
-    path('blogs/<int:pk>/update/', views.BlogPostUpdate.as_view(), name='blog-post-update'),
     path('blogs/<int:pk>/delete/', views.BlogPostDelete.as_view(), name='blog-post-delete'),
     path('blogs/<int:pk>/<int:user_id>/comments/create/', views.CommentCreate.as_view(), name='comment-create'),
     path('blogs/<int:pk>/<int:user_id>/<int:comment_id>/answers/create/', views.AnswerCreate.as_view(), name='answer-create'),

@@ -1,5 +1,66 @@
 {% extends 'base.html' %}
 
 {% block main %}
-
+    <div class="create-blog-post-form">
+        <h2 class="create-blog-post-title element-to-center">Create a blog post</h2>
+        <div class="new-category-form">
+            <br/>
+            <form method="post" action="">
+                {% csrf_token %}
+                <label for="id_name">New topic name:</label>
+                <input type="text" name="name" maxlength="25" id="id_name"><span>&emsp;</span>
+                <input type="submit" value="Save"/>
+                <input type="button" value="Cancel" id="cancel-new-category-button"/>
+            </form>
+            <p class="alert alert-warning">This operation will refresh the page!</p>
+        </div>
+        <div class="form-errors">
+            <br/>
+            {% if blogpost_form.errors %}
+                {% for field in blogpost_form %}
+                    {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                            <span>{{ error|escape }}</span>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in blogpost_form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <span>{{ error|escape }}</span>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <br/>
+        <form method="post" action="">
+            {% csrf_token %}
+            <div>
+                <label for="id_author">Author:</label>
+                <select name="author" required id="id_author" readonly>
+                    <option value="{{ user.blogger.id }}" selected>{{ user.blogger }}</option>
+                </select>
+            </div>
+            <br/>
+            <div>
+                <label for="id_title">Title:</label>
+                <input type="text" name="title" maxlength="100" required id="id_title">
+            </div>
+            <br/>
+            <div>
+                <label>What is its topic? <i>(Choose one or more)</i>:</label>
+                {{ blogpost_form.categories }}
+            </div>
+            <button type="button" class="show-new-category-form">Or create your own category</button>
+            <br/><br/>
+            <div>
+                <label for="id_content">Content:</label>
+                <br/>
+                <textarea name="content" cols="40" rows="10" maxlength="1500" required id="id_content"></textarea>
+            </div>
+            <br/>
+            <p class="alert alert-warning">Note that your blog cannot be modified after being posted.</p>
+            <br/>
+            <input type="submit" value="Post" class="add-blog-post-button element-to-center"/>
+        </form>
+    </div>
 {% endblock %}

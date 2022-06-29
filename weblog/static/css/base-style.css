@@ -216,6 +216,8 @@ aside .latest-content {
 
 aside .latest-content h3 {
     text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
 }
 
 #search-input {
@@ -284,8 +286,92 @@ footer hr {
 
 .blogger-posts, .blog-posts {
     display: flex;
-    width: 80%;
+    width: 100%;
     justify-content: space-between;
+}
+
+.blogger-blog-post-list .blog-posts .blog-post-name {
+    width: 60%;
+}
+
+.blogger-blog-post-list .blog-posts .blog-post-utils {
+    width: 35%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.blogger-blog-post-list .blog-posts .blog-post-utils button{
+    border-radius: 5px;
+    background-color: crimson;
+}
+
+.blogger-blog-post-list .blog-posts .blog-post-utils button:hover {
+    background-color: red;
+}
+
+.add-blog-post-button {
+    width: max-content;
+    margin-bottom: 2rem;
+    background-color: springgreen;
+    border-radius: 5px;
+}
+
+.add-blog-post-button:hover {
+    background-color: limegreen;
+}
+
+.blog-posts .blog-post-name {
+    width: 70%;
+}
+
+.blog-posts .blog-post-utils {
+    width: 25%;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.create-blog-post-title {
+    width: max-content;
+}
+
+.new-category-form {
+    visibility: hidden;
+    height: 0;
+}
+
+.create-blog-post-form label {
+    font-weight: bold;
+}
+
+.create-blog-post-form #id_author {
+    margin-left: 1rem;
+}
+
+.create-blog-post-form #id_title {
+    margin-left: 2rem;
+    width: 70%;
+}
+
+.create-blog-post-form #id_categories {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 1rem;
+}
+
+.create-blog-post-form #id_categories > * {
+    min-width: fit-content;
+    width: 25%;
+    max-width: 25%;
+    align-items: center;
+    margin-inline: 1rem;
+}
+
+.create-blog-post-form #id_content {
+    width: 100%;
+    padding: 1rem;
 }
 
 .blog-post-list {

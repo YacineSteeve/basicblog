@@ -1,6 +1,24 @@
 let newCommentButton = document.querySelector('.new-comment-button');
 let newAnswerButtons = document.querySelectorAll('.new-answer-button');
 let cancelButtons = document.querySelectorAll('.cancel-button');
+let newCategoryButton = document.querySelector('.show-new-category-form');
+let cancelNewCategoryButton = document.querySelector('#cancel-new-category-button');
+let categoryForm = document.querySelector('.new-category-form');
+let categoryNameInput = document.querySelector('#id_name');
+
+
+function showCategoryForm() {
+    categoryForm.style.height = 'fit-content';
+    categoryForm.style.visibility = 'visible';
+    categoryNameInput.focus();
+    categoryForm.scrollIntoView({block: 'center', behavior: 'smooth'});
+}
+
+
+function hideCategoryForm() {
+    categoryForm.style.visibility = 'hidden';
+    categoryForm.style.height = '0';
+}
 
 
 function removeCommentDiv(event) {
@@ -27,6 +45,11 @@ function createCommentDiv(event) {
 
     commentDiv.scrollIntoView({block: 'center', behavior: 'smooth'});
 }
+
+
+newCategoryButton.addEventListener('click', showCategoryForm);
+
+cancelNewCategoryButton.addEventListener('click', hideCategoryForm);
 
 newCommentButton.addEventListener('click', createCommentDiv);
 
