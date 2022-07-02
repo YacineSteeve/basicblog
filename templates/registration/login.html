@@ -9,7 +9,7 @@
                 {{ form.as_table }}
             </table>
             <div class="buttons horizontally-centered">
-                <a href="{% if next %}{{ next }}{% else %}{% url 'index' %}{% endif %}">
+                <a href="{% if next and user.is_authenticated %}{{ next }}{% else %}{% url 'index' %}{% endif %}">
                     <input type="button" value="Cancel" id="back-btn" class="auth-btn"/>
                 </a>
                 <input type="submit" value="Sign in" id="sign-in-btn" class="auth-btn"/>

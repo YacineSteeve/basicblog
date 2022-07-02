@@ -10,5 +10,9 @@
             {% csrf_token %}
             <input type="submit" value="Yes, I am sure" class="confirm-delete-button element-to-center">
         </form>
+        <br/>
+        <a href="{% url 'index' %}">
+            <input type="button" value="No, cancel this operation" class="cancel-delete-button element-to-center"/>
+        </a>
     </div>
 {% endblock %}

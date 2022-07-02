@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <div>
+        <h4>Best results for &ensp;<strong>"{{ query }}"</strong></h4>
+        <br/><br/>
+        <div>
+            {% if matching_categories|length != 0 %}
+                <div class="hr-span-hr">
+                    <hr/>
+                    <span>{{ matching_categories|length }} categories/topics found</span>
+                    <hr/>
+                </div>
+                <br/>
+                <ul>
+                    {% for category in matching_categories %}
+                        <li><a href="{% url 'category-blog-posts' category %}">{{ category }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div>
+            {% if matching_posts|length != 0 %}
+                <div class="hr-span-hr">
+                    <hr/>
+                    <span>{{ matching_posts|length }} blog posts found</span>
+                    <hr/>
+                </div>
+                <br/>
+                {% for blogpost in matching_posts %}
+                    <p>&emsp;<a href="{{ blogpost.get_absolute_url }}">{{ blogpost }}</a></p>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div>
+            {% if matching_bloggers|length != 0 %}
+                <div class="hr-span-hr">
+                    <hr/>
+                    <span>{{ matching_bloggers|length }} bloggers found</span>
+                    <hr/>
+                </div>
+                <br/>
+                <ul>
+                    {% for blogger in matching_bloggers %}
+                        {% if not blogger.user.is_superuser %}
+                            <li><a href="{{ blogger.get_absolute_url }}">{{ blogger }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -26,6 +26,7 @@
 
     {% load static %}
     {% get_static_prefix as STATIC_PREFIX %}
+    {% now 'Y' as current_year %}
 
     <!-- Icons -->
     <link rel="stylesheet"
@@ -94,26 +95,41 @@
             </main>
             <aside>
                 <div class="search-form">
-                    <form method="post" action="">
+                    <form method="post" action="{% url 'search-results' %}">
                         {% csrf_token %}
                         <label for="search-input"></label>
-                        <input type="search" name="q" id="search-input" placeholder="Search on WeBlog..."/>
+                        <input type="search" name="query" id="search-input" placeholder="Search on WeBlog..."/>
                         <button type="submit" id="search-btn"><i class="fa fa-search"></i></button>
                     </form>
                 </div>
-                <div class="latest-content">
-                    <h3 class="section-title">Latest content</h3>
+                <div class="best-content">
+                    <h6 class="section-title">TOP &ensp;CATEGORIES</h6>
                     <br/>
-                    <p>
-                        But why smiling man her imagine married. Chiefly can man her out believe manners cottage
-                        colonel unknown.
-                        Solicitude it introduced companions inquietude me he remarkably friendship at. My almost or
-                        horses period.
-                        Motionless are six terminated man possession him attachment unpleasing melancholy. Sir smile
-                        arose one share.
-                        No abroad in easily relied an whence lovers temper by. Looked wisdom common he an be giving
-                        length mr.
-                    </p>
+                    <div class="best-categories">
+                        {% for category in top_categories %}
+                            <!-- TODO: An url mapping for categorized blogposts -->
+                            <a href="{% url 'category-blog-posts' category|first %}">
+                                <div class="category"><span>{{ category|first }}&ensp;<b>{{ category|last }}</b></span></div>
+                            </a>
+                        {% empty %}
+                            <p>&emsp;Nothing is here yet.</p>
+                        {% endfor %}
+                    </div>
+                    <br/><br/>
+                    <h6 class="section-title">POPULAR CONTENT</h6>
+                    <br/>
+                    <div class="best-blog-posts">
+                        <ul>
+                            {% for blogpost in popular_content %}
+                                <li>
+                                    <a href="{% url 'blog-post-detail' blogpost|last %}">{{ blogpost|first }}</a>
+                                    <br/><br/>
+                                </li>
+                            {% empty %}
+                                <li>Nothing is here yet.</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
             </aside>
         </section>
@@ -129,7 +145,7 @@
                     </div>
                     <div class="element-to-center">
                         <label for="id_sender_email">Your email:</label>
-                        <input type="email" name="sender_email" required id="id_sender_email">
+                        <input type="email" name="sender_email" required id="id_sender_email" {% if user.is_authenticated %}value="{{ user.email }}"{% endif %}/>
                     </div>
                     <div class="element-to-center">
                         <label for="id_message">Message:</label>
@@ -168,7 +184,7 @@
                 </div>
             </div>
             <br/>
-            <p class="copyright">&copy; 2022 - Yacine BOUKARI - All rights reserved</p>
+            <p class="copyright">&copy; {{ current_year }} - Yacine BOUKARI - All rights reserved</p>
         </footer>
     </div>
 </body>

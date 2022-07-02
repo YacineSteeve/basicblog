@@ -59,6 +59,13 @@ class UserCreateForm(UserCreationForm):
         return self.cleaned_data['email']
 
 
+class SearchForm(forms.Form):
+    query = forms.CharField(max_length=100)
+
+    class Meta:
+        fields = '__all__'
+
+
 class ContactForm(forms.Form):
     subject = forms.CharField(max_length=100)
     sender_email = forms.EmailField()

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block main %}
+    <div>
+        <h4>Posts about <strong>{{ category }}</strong></h4>
+        <br/>
+        <p class="category-blog-posts-number element-to-center">{{ blogposts_of_category|length }} results found</p>
+        <br/>
+        {% for blogpost in blogposts_of_category %}
+            <div>
+                <h5><strong>{{ blogpost.title }}</strong></h5>
+                <p class="text-muted">
+                    Author: <a href="{{ blogpost.author.get_absolute_url }}">{{ blogpost.author }}</a>
+                </p>
+                <p>{{ blogpost.content|slice:"200" }}...</p>
+                <p class="read-more"><a href="{{ blogpost.get_absolute_url }}">Read more</a></p>
+            </div>
+            <hr/>
+        {% endfor %}
+    </div>
+{% endblock %}
