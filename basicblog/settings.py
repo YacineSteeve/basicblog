@@ -29,10 +29,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'weblog.com',
-    'www.weblog.com',
-    '127.0.0.1',
-    '*',
+    'weblog-basic.herokuapp.com',
 ]
 
 ADMINS = [
