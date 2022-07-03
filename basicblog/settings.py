@@ -30,6 +30,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     'weblog-basic.herokuapp.com',
+    '.herokuapp.com',
 ]
 
 ADMINS = [
@@ -162,6 +163,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+CSRF_TRUSTED_ORIGINS = ["https://weblog-basic.herokuapp.com"]
 SECURE_SSL_REDIRECT = True
 
 # HSTS settings
