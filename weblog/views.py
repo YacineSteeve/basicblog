@@ -33,26 +33,27 @@ def search(request: HttpRequest) -> HttpResponse:
         form = SearchForm(request.POST)
         if form.is_valid():
             search_query = form.cleaned_data['query']
-            matching_categories = []
-            matching_posts = []
-            matching_bloggers = []
+            if search_query != '':
+                matching_categories = []
+                matching_posts = []
+                matching_bloggers = []
 
-            for word in search_query.split(' '):
-                matching_categories += Category.objects.filter(name__icontains=word)
-                matching_posts += BlogPost.objects.filter(title__icontains=word)
-                matching_posts += BlogPost.objects.filter(content__icontains=word)
-                matching_bloggers += Blogger.objects.filter(user__username__icontains=word)
+                for word in search_query.split(' '):
+                    matching_categories += Category.objects.filter(name__icontains=word)
+                    matching_posts += BlogPost.objects.filter(title__icontains=word)
+                    matching_posts += BlogPost.objects.filter(content__icontains=word)
+                    matching_bloggers += Blogger.objects.filter(user__username__icontains=word)
 
-            context = {
-                'query': search_query,
-                'matching_categories': matching_categories[:15],
-                'matching_posts': matching_posts[:15],
-                'matching_bloggers': matching_bloggers[:15]
-            }
+                context = {
+                    'query': search_query,
+                    'matching_categories': matching_categories[:15],
+                    'matching_posts': matching_posts[:15],
+                    'matching_bloggers': matching_bloggers[:15]
+                }
 
-            return render(request, 'search.html', context)
+                return render(request, 'search.html', context)
 
-    return HttpResponseRedirect(reverse('search-results'))
+    return HttpResponseRedirect(reverse('index'))
 
 
 @sensitive_post_parameters('password1', 'password2')

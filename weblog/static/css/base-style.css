@@ -194,15 +194,18 @@ aside .search-form form {
 
 aside .search-form #search-btn {
     width: 20%;
-    border-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 aside .search-form #search-input {
     width: 80%;
     height: 7vh;
     padding: 0.7rem;
-    border-radius: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
     font-size: 0.9rem;
+    margin-right: -2px;
 }
 
 aside .best-content {
