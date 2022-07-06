@@ -1,10 +1,12 @@
-from django.urls import path, include
+from django.urls import path, re_path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic.base import RedirectView
 from . import views
 
 urlpatterns = [
     path('', views.recent_posts, name='index'),
+    re_path(r'^favicon\.ico$', RedirectView.as_view(url=settings.MEDIA_URL + 'Path_to_favicon_file')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/create/', views.account_create, name='account-create'),
     path('accounts/<int:pk>/update/', views.account_update, name='account-update'),
