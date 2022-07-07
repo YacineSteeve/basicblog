@@ -1,4 +1,6 @@
+import total as total
 from django.db import models
+from django.db.models import F
 from django.urls import reverse
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -25,13 +27,12 @@ class BlogPost(models.Model):
         return [category for category in self.categories.all()]
 
     def get_comments_number(self) -> int:
-        comments = [comment for comment in self.comment_set.all() if not comment.author.is_superuser]
-        total = len(comments)
-        for comment in comments:
-            answers = [answer for answer in comment.answer_set.all() if not answer.author.is_superuser]
-            total += len(answers)
+        concerned_comments = list(self.comment_set.filter(author__is_superuser=False))
+        concerned_answers = [answer
+                             for comment in concerned_comments
+                             for answer in comment.answer_set.filter(author__is_superuser=False)]
 
-        return total
+        return len(concerned_comments) + len(concerned_answers)
 
     def get_absolute_url(self) -> str:
         return reverse('blog-post-detail', args=[self.id])

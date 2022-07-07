@@ -4,6 +4,7 @@ from django.views import generic, View
 from django.shortcuts import render
 from django.urls import reverse
 from django.core.mail import send_mail
+from django.db.models import Q
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.contrib.auth import logout
 from django.contrib.auth.models import User
@@ -17,9 +18,7 @@ from .forms import BlogPostForm, BloggerForm, CommentForm, AnswerForm, \
 
 
 def recent_posts(request: HttpRequest) -> HttpResponse:
-    blogposts = BlogPost.objects.all()
-    sorted_posts = sorted(blogposts, key=lambda blogpost: blogpost.post_date, reverse=True)
-    return render(request, 'index.html', {'recent_posts': sorted_posts})
+    return render(request, 'index.html', {'recent_posts': BlogPost.objects.order_by('-post_date', 'title')})
 
 
 def blog_posts_of_given_category(request: HttpRequest, category: str) -> HttpResponse:
@@ -32,24 +31,32 @@ def search(request: HttpRequest) -> HttpResponse:
     if request.method == 'POST':
         form = SearchForm(request.POST)
         if form.is_valid():
-            search_query = form.cleaned_data['query']
-            if search_query != '':
-                matching_categories = []
-                matching_posts = []
-                matching_bloggers = []
+            search_query = form.cleaned_data['query'].split(' ')
 
-                for word in search_query.split(' '):
-                    matching_categories += Category.objects.filter(name__icontains=word)
-                    matching_posts += BlogPost.objects.filter(title__icontains=word)
-                    matching_posts += BlogPost.objects.filter(content__icontains=word)
-                    matching_bloggers += Blogger.objects.filter(user__username__icontains=word)
+            if search_query != '':
+                matching_categories = {
+                    category
+                    for word in search_query
+                    for category in Category.objects.filter(name__icontains=word)
+                }
+                matching_posts = {
+                    post
+                    for word in search_query
+                    for post in BlogPost.objects.filter(Q(title__icontains=word) | Q(content__icontains=word))
+                }
+                matching_bloggers = {
+                    blogger
+                    for word in search_query
+                    for blogger in Blogger.objects.filter(user__username__icontains=word)
+                }
 
                 context = {
-                    'query': search_query,
-                    'matching_categories': matching_categories[:15],
-                    'matching_posts': matching_posts[:15],
-                    'matching_bloggers': matching_bloggers[:15]
+                    'query': ' '.join(search_query),
+                    'matching_categories': list(matching_categories)[:15],
+                    'matching_posts': list(matching_posts)[:15],
+                    'matching_bloggers': list(matching_bloggers)[:15]
                 }
+                context.update(csrf(request))
 
                 return render(request, 'search.html', context)
 
@@ -81,7 +88,6 @@ def account_create(request: HttpRequest) -> HttpResponse:
         'user_form': user_form,
         'blogger_form': blogger_form
     }
-
     context.update(csrf(request))
 
     return render(request, 'sign-up_form.html', context)
@@ -141,7 +147,6 @@ def account_update(request: HttpRequest, pk: int) -> HttpResponse:
             'blogger_form': blogger_form,
             'current_date_of_birth': current_date_of_birth,
         }
-
         context.update(csrf(request))
 
         return render(request, 'account_update.html', context)
@@ -159,7 +164,10 @@ def account_delete(request: HttpRequest, pk: int) -> HttpResponse:
             user.delete()
             return HttpResponseRedirect(reverse('index'))
 
-        return render(request, 'confirm_delete.html', {'object': user})
+        context = {'object': user}
+        context.update(csrf(request))
+
+        return render(request, 'confirm_delete.html', context)
     else:
         return HttpResponseRedirect(reverse('index'))
 
@@ -176,6 +184,9 @@ def contact_view(request: HttpRequest) -> HttpResponse:
                 from_email=form.cleaned_data['sender_email'],
                 recipient_list=recipient_list
             )
+
+        context = {'form': form}
+        context.update(csrf(request))
 
         return render(request, 'contact_done_or_not.html', {'form': form})
 
@@ -229,6 +240,7 @@ class BlogPostCreate(LoginRequiredMixin, generic.CreateView):
             'blogpost_form': form2,
             'category_form': form1,
         }
+        context.update(csrf(request))
 
         return render(request, 'blogpost_form.html', context)
 
@@ -254,6 +266,9 @@ class BloggerCreate(LoginRequiredMixin, generic.CreateView):
                 date_of_birth=form.cleaned_data['date_of_birth']
             ).save()
         else:
+            context = {'form': form}
+            context.update(csrf(request))
+
             return render(request, 'blogger_form.html', {'form': form})
 
         return HttpResponseRedirect(reverse('account-update', args=[request.user.id]))

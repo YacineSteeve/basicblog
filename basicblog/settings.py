@@ -25,12 +25,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 
+if not SECRET_KEY:
+    with open(os.path.join(BASE_DIR, '.env')) as file:
+        SECRET_KEY = file.read()
+
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     'weblog-basic.herokuapp.com',
     '.herokuapp.com',
+    '*'
 ]
 
 ADMINS = [
@@ -167,7 +172,7 @@ MEDIA_ROOT = BASE_DIR / 'weblog/media/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # HTTPS settings
-
+"""
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 CSRF_TRUSTED_ORIGINS = ["https://weblog-basic.herokuapp.com"]
@@ -178,3 +183,4 @@ SECURE_SSL_REDIRECT = True
 SECURE_HSTS_SECONDS = 31536000
 SECURE_HSTS_PRELOAD = True
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+"""
