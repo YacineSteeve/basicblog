@@ -6,7 +6,7 @@
         <h1>Update your profile</h1>
         <br/>
         <div class="update-header">
-            <div class="profile-picture" style="background-image: url('{% if user.blogger and user.blogger.avatar %}/weblog{{ user.blogger.avatar.url }}{% else %}{{ STATIC_PREFIX }}images/user_placeholder.png{% endif %}');">
+            <div class="profile-picture" style="background-image: url('{% if user.blogger and user.blogger.avatar %}{{ user.blogger.avatar.url }}{% else %}{{ STATIC_PREFIX }}images/user_placeholder.png{% endif %}');">
             </div>
             <div>
                 <p><strong>Username: {{ user.username }}</strong></p>

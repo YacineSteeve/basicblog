@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import cloudinary
+import cloudinary_storage
 import os
 import dj_database_url
 
@@ -57,6 +59,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'weblog.apps.WeblogConfig',
     'django_static_fontawesome',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -165,6 +169,15 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'weblog/media/'
+
+# Cloudinary stuff
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.getenv('CLOUDINARY_CLOUD_NAME', 'weblog-cloud'),
+    'API_KEY': os.getenv('CLOUDINARY_API_KEY', '921942419282611'),
+    'API_SECRET': os.getenv('CLOUDINARY_API_SECRET', 'W7RKuiQNd-9Fk6VJkpgt2tyIGF0'),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
