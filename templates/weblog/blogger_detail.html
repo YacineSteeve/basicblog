@@ -3,7 +3,7 @@
 {% block main %}
     <div class="blogger-header">
         <div class="profile-picture"
-             style="background-image: url('{% if blogger.avatar %}/weblog{{ blogger.avatar.url }}{% else %}{{ STATIC_PREFIX }}images/user_placeholder.png{% endif %}');">
+             style="background-image: url('{% if blogger.avatar %}{{ blogger.avatar.url }}{% else %}{{ STATIC_PREFIX }}images/user_placeholder.png{% endif %}');">
         </div>
         <div class="blogger-infos">
             {% if blogger.user.first_name and blogger.user.last_name %}

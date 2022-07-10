@@ -32,7 +32,7 @@
                         <div class="comment-header">
                             {% if comment.author.blogger %}
                                 <div class="profile-picture comment-author-avatar"
-                                     style="background-image: url('{% if comment.author.blogger.avatar %}/weblog{{ comment.author.blogger.avatar.url }}{% else %}{{ STATIC_PREFIX }}images/user_placeholder.png{% endif %}');">
+                                     style="background-image: url('{% if comment.author.blogger.avatar %}{{ comment.author.blogger.avatar.url }}{% else %}{{ STATIC_PREFIX }}images/user_placeholder.png{% endif %}');">
                                 </div>
                                 <p>
                                     &emsp;<a
@@ -63,7 +63,7 @@
                                             <div class="comment-header">
                                                 {% if answer.author.blogger %}
                                                     <div class="profile-picture comment-author-avatar"
-                                                         style="background-image: url('{% if answer.author.blogger.avatar %}/weblog{{ answer.author.blogger.avatar.url }}{% else %}{{ STATIC_PREFIX }}images/user_placeholder.png{% endif %}');">
+                                                         style="background-image: url('{% if answer.author.blogger.avatar %}{{ answer.author.blogger.avatar.url }}{% else %}{{ STATIC_PREFIX }}images/user_placeholder.png{% endif %}');">
                                                     </div>
                                                     <p>
                                                         &emsp;<a href="{{ answer.author.blogger.get_absolute_url }}">{{ answer.author }}</a>
